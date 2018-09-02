@@ -67,8 +67,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  //PlayerStack,
-  // RecorderStack,
+  RecorderStack,
   MediaStack,
   SettingsStack
 });
