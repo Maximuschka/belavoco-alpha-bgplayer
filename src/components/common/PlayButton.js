@@ -1,7 +1,7 @@
 // Import a library to help create a compone
 import React, { Component } from 'react';
-import { 
-    TouchableOpacity, 
+import {
+    TouchableOpacity,
     StyleSheet,
     DeviceEventEmitter,
     Platform
@@ -83,15 +83,15 @@ export default class PlayButton extends Component {
     }
 
     render() {
-        // console.log(this.state.playingState);
+        //console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
-  
+
         if (this.state.isLoading) {
           return <Spinner size="small" />;
         }
         return (
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={this.onPress}
               style={buttonStyle}
             >

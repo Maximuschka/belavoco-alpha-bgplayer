@@ -20,7 +20,7 @@ export default class MediaScreen extends Component {
     this.playFinishHandlerMS = this.playFinishHandlerMS.bind(this);
   }
 
-  state = { 
+  state = {
     audiobooks: [],
     typeChoice: 'all',
     playerActivity: false,
@@ -28,8 +28,8 @@ export default class MediaScreen extends Component {
   };
 
   componentWillMount() {
-    axios.get('http://www.belavo.co/api/get/all')
-    .then(response => this.setState({ 
+    axios.get('https://www.belavo.co/api/get/all')
+    .then(response => this.setState({
         audiobooks: response.data }))
     .catch(e => console.log(e));
 }
@@ -39,14 +39,14 @@ export default class MediaScreen extends Component {
   }
 
   selectionHandlerMediaScreen(audiobookToPlay) {
-    this.setState({ 
+    this.setState({
       selectedAudiobook: audiobookToPlay,
       playerActivity: true
     });
   }
 
   playFinishHandlerMS() {
-    this.setState({ 
+    this.setState({
       playerActivity: false
     });
   }
@@ -54,7 +54,7 @@ export default class MediaScreen extends Component {
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
 
-      const { 
+      const {
         id,
         author,
         title,
@@ -67,11 +67,11 @@ export default class MediaScreen extends Component {
         return (
           <Card>
             <CardSectionAP>
-              <AudioPlayer 
+              <AudioPlayer
                 author={author}
                 title={title}
                 audiobookURL={file_url}
-                playFinishHandlerMS={playFinishHandlerMS} 
+                playFinishHandlerMS={playFinishHandlerMS}
               />
             </CardSectionAP>
           </Card>
@@ -80,6 +80,7 @@ export default class MediaScreen extends Component {
 }
 
   render() {
+    //console.log(this.state.audiobooks)
     if (this.state.selectedAudiobook !== null) {
     }
     const choiceHandler = this.choiceHandler;
@@ -89,28 +90,28 @@ export default class MediaScreen extends Component {
       <View style={styles.container}>
         <Card>
           <CardSection>
-            <ButtonSmall 
-              buttonText={'Alles'} 
+            <ButtonSmall
+              buttonText={'Alles'}
               buttonState={'all'}
               choiceHandler={choiceHandler.bind(this)}
             />
-            <ButtonSmall 
+            <ButtonSmall
               buttonText={'Prosa'}
               buttonState={'prose'}
               choiceHandler={choiceHandler.bind(this)}
             />
-            <ButtonSmall 
+            <ButtonSmall
               buttonText={'Lyrik'}
               buttonState={'poetry'}
-              choiceHandler={choiceHandler.bind(this)} 
+              choiceHandler={choiceHandler.bind(this)}
             />
           </CardSection>
         </Card>
         <ScrollView>
-          <AudiobookList 
+          <AudiobookList
             audioBookChoice={this.state.typeChoice}
             audiobooks={this.state.audiobooks}
-            selectionHandlerMediaScreen={selectionHandlerMediaScreen} 
+            selectionHandlerMediaScreen={selectionHandlerMediaScreen}
           />
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}

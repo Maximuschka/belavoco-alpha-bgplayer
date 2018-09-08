@@ -21,7 +21,7 @@ export default class AudioPlayer extends React.Component {
     render() {
         const playFinishHandlerAP = this.playFinishHandlerAP;
 
-        const { 
+        const {
             containerStyle,
             buttonContainer,
             infoContainer,
@@ -32,9 +32,9 @@ export default class AudioPlayer extends React.Component {
       return (
         <View style={containerStyle}>
             <View styke={buttonContainer}>
-                <PlayButton 
+                <PlayButton
                     playingState={'PLAYING'}
-                    playFinishHandlerAP={playFinishHandlerAP} 
+                    playFinishHandlerAP={playFinishHandlerAP}
                 />
             </View>
             <View style={infoContainer}>

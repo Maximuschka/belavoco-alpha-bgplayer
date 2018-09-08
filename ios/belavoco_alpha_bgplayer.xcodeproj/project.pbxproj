@@ -28,7 +28,6 @@
 		23882EC0D41B48679DA112A9 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39EDA9F313D3482AACCF37BF /* EvilIcons.ttf */; };
 		26045DDBF2624CBC8200695D /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8642B99E1FF4F6C95FC42CA /* FontAwesome5_Solid.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
@@ -329,6 +328,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
+		};
+		FF46037C2142A7E50025AC33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
 		};
 		FF94F526213C094100B0EAF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -737,6 +743,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FF46037D2142A7E50025AC33 /* PBXTargetDependency */,
 			);
 			name = belavoco_alpha_bgplayer;
 			productName = "Hello World";
@@ -795,6 +802,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 2JQN7586SR;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1197,7 +1209,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1288,6 +1299,11 @@
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* belavoco_alpha_bgplayer-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
+		};
+		FF46037D2142A7E50025AC33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = FF46037C2142A7E50025AC33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1382,8 +1398,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.bela.belavoco;
+				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco;
 				PRODUCT_NAME = belavoco_alpha_bgplayer;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1406,8 +1423,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.bela.belavoco;
+				PRODUCT_BUNDLE_IDENTIFIER = co.belavo.belavoco;
 				PRODUCT_NAME = belavoco_alpha_bgplayer;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

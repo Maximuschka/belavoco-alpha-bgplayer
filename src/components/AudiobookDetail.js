@@ -1,23 +1,23 @@
 // Import a library to help create a component
 import React from 'react';
 import moment from 'moment';
-import { 
-    Text, 
-    View, 
+import {
+    Text,
+    View,
     TouchableOpacity,
     AsyncStorage } from 'react-native';
-import { 
-    Card, 
-    CardSection, 
-    InfoIcon, 
-    AudioProgressBar, 
+import {
+    Card,
+    CardSection,
+    InfoIcon,
+    AudioProgressBar,
     LikeButton } from './common';
 
 import playerUtils from '../player/playerUtils';
 
 // Make a component
 class AudiobookDetail extends React.Component {
-    state = { 
+    state = {
         isLoading: true,
         selectedAudiobook: null,
         audioProgress: null,
@@ -26,12 +26,13 @@ class AudiobookDetail extends React.Component {
 
     async componentWillMount() {
         await this.loadLikeState();
-        this.setState({ 
+        this.setState({
             isLoading: false
         });
     }
 
     startPlayPress = () => {
+        //playerUtils.startAudioBook('http://www.schillmania.com/projects/soundmanager2/demo/_mp3/rain.mp3');
         playerUtils.startAudioBook(this.props.audiobook.file_url);
         this.props.selectionHandlerList(this.props.audiobook);
       }
@@ -62,10 +63,10 @@ class AudiobookDetail extends React.Component {
     //         return null;
     //     }
     //     return <AudioProgressBar progress={this.state.audioProgress} />;
-    // } 
+    // }
 
     render() {
-        const { 
+        const {
             id,
             author,
             title,
@@ -74,8 +75,8 @@ class AudiobookDetail extends React.Component {
             times_played,
             length
         } = this.props.audiobook;
-    
-        const { 
+
+        const {
             textContainerColumn,
             textContainerRow,
             authorStyle,
@@ -111,13 +112,13 @@ class AudiobookDetail extends React.Component {
                                     extraMargin='3'
                                 />
 
-                                <InfoIcon 
+                                <InfoIcon
                                     type="materialicon"
                                     name="replay"
                                     text={times_played}
                                 />
 
-                                <InfoIcon 
+                                <InfoIcon
                                     type="evilicon"
                                     name="like"
                                     text='0'
@@ -126,7 +127,7 @@ class AudiobookDetail extends React.Component {
                         </View>
                     </View>
                     <TouchableOpacity onPress={this.likePress} style={likeButtonContainer}>
-                        <LikeButton 
+                        <LikeButton
                             like={this.state.like}
                         />
                     </TouchableOpacity>

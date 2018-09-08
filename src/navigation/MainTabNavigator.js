@@ -21,8 +21,8 @@ RecorderStack.navigationOptions = {
       type='ionicon'
       name={
         Platform.OS === 'ios'
-          ? `ios-mic${focused ? '' : '-outline'}`
-          : 'md-mic'
+        ? 'ios-mic'
+        : 'md-mic'
       }
     />
   ),
@@ -40,7 +40,7 @@ MediaStack.navigationOptions = {
       type='ionicon'
       name={
         Platform.OS === 'ios'
-          ? `ios-headset${focused ? '' : '-outline'}`
+          ? 'ios-headset'
           : 'md-headset'
       }
     />
@@ -59,7 +59,7 @@ SettingsStack.navigationOptions = {
       type='ionicon'
       name={
         Platform.OS === 'ios'
-          ? `ios-build${focused ? '' : '-outline'}`
+          ? 'ios-build'
           : 'md-build'
       }
     />
