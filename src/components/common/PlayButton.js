@@ -59,31 +59,49 @@ export default class PlayButton extends Component {
                         ? 'ios-pause'
                         : 'md-pause'
                     }
-                size={50}
+                size={45}
                 style={iconStyle}
                 type='ionicon'
                 color='grey'
             />
           );
-        }
-
-        return (
-            <Icon
-                name={
-                    Platform.OS === 'ios'
-                        ? 'ios-play'
-                        : 'md-play'
-                    }
-                size={50}
-                style={iconStyle}
-                type='ionicon'
-                color='grey'
-            />
-        );
+        } else if (String(playingState) === 'PAUSED') {
+            return (
+                <Icon
+                    name={
+                        Platform.OS === 'ios'
+                            ? 'ios-play'
+                            : 'md-play'
+                        }
+                    size={45}
+                    style={iconStyle}
+                    type='ionicon'
+                    color='grey'
+                />
+            );
+        } else if (String(playingState) === 'BUFFERING' || String(playingState) === 'STOPPED') {
+            return (
+                <Spinner />
+            );
+        } else if (String(playingState) === 'ERROR') {
+            return (
+                <Icon
+                    name={
+                        Platform.OS === 'ios'
+                            ? 'ios-close'
+                            : 'md-close'
+                        }
+                    size={45}
+                    style={iconStyle}
+                    type='ionicon'
+                    color='grey'
+                />
+            );
+        } 
     }
 
     render() {
-        //console.log(this.state.playingState);
+        console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
 

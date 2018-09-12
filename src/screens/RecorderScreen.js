@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Linking
     } from 'react-native';
-import { Button } from '../components/common';
+import { Button, AlertField } from '../components/common';
 import NameModalStartUp from '../components/NameModalStartUp';
 
 import Colors from '../constants/Colors';

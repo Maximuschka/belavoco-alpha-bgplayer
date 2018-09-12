@@ -31,7 +31,7 @@ export default class AudioPlayer extends React.Component {
 
       return (
         <View style={containerStyle}>
-            <View styke={buttonContainer}>
+            <View style={buttonContainer}>
                 <PlayButton
                     playingState={'PLAYING'}
                     playFinishHandlerAP={playFinishHandlerAP}
@@ -56,17 +56,17 @@ const styles = {
         flexDirection: 'row',
         borderColor: '#ddd',
         position: 'relative',
+        // flex: 5,
     },
     buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        // width: 50,
+        width: 50,
         // flex: 1,
     },
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        marginLeft: 8,
         marginLeft: 8,
         // flex: 4
     },

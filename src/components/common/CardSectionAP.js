@@ -18,7 +18,7 @@ const styles = {
         // borderWidth: 1,
         // borderColor: 'black',
         padding: 5,
-        // height: 80, 
+        height: 80, 
         backgroundColor: '#92e8a9',
         justifyContent: 'flex-start',
         flexDirection: 'row',
