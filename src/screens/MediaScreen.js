@@ -4,7 +4,12 @@ import axios from 'axios';
 
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
-import { Card, CardSection, CardSectionAP, ButtonSmall } from '../components/common';
+import { 
+  Card, 
+  CardSection, 
+  CardSectionAP, 
+  ButtonSmall,
+  Spinner } from '../components/common';
 
 import Colors from '../constants/Colors';
 
@@ -21,6 +26,7 @@ export default class MediaScreen extends Component {
   }
 
   state = {
+    loading: true,
     audiobooks: [],
     typeChoice: 'all',
     playerActivity: false,
@@ -30,7 +36,9 @@ export default class MediaScreen extends Component {
   componentWillMount() {
     axios.get('https://www.belavo.co/api/get/all')
     .then(response => this.setState({
-        audiobooks: response.data }))
+        audiobooks: response.data,
+        loading: false
+       }))
     .catch(e => console.log(e));
 }
 
@@ -50,6 +58,20 @@ export default class MediaScreen extends Component {
       playerActivity: false
     });
   }
+
+  renderAudioBookList(selectionHandlerMediaScreen) {
+    if (this.state.loading) {
+        return <Spinner />;
+    }
+
+    return (
+      <AudiobookList
+        audioBookChoice={this.state.typeChoice}
+        audiobooks={this.state.audiobooks}
+        selectionHandlerMediaScreen={selectionHandlerMediaScreen}
+      />
+    );
+}
 
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
@@ -108,11 +130,7 @@ export default class MediaScreen extends Component {
           </CardSection>
         </Card>
         <ScrollView>
-          <AudiobookList
-            audioBookChoice={this.state.typeChoice}
-            audiobooks={this.state.audiobooks}
-            selectionHandlerMediaScreen={selectionHandlerMediaScreen}
-          />
+          {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}
       </View>
