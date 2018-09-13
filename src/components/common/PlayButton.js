@@ -19,6 +19,10 @@ export default class PlayButton extends Component {
         playingState: this.props.playingState
     };
 
+    test() {
+        playerUtils.currentProgress();
+    }
+
     componentWillMount() {
         this.setState({
           isLoading: false,
@@ -101,7 +105,8 @@ export default class PlayButton extends Component {
     }
 
     render() {
-        console.log(this.state.playingState);
+        this.test();
+        // console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
 
