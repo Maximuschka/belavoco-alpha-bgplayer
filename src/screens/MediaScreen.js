@@ -80,7 +80,7 @@ export default class MediaScreen extends Component {
 }
 
   render() {
-    //console.log(this.state.audiobooks)
+    // console.log(this.state.playerActivity);
     if (this.state.selectedAudiobook !== null) {
     }
     const choiceHandler = this.choiceHandler;

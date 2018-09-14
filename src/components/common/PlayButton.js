@@ -105,7 +105,7 @@ export default class PlayButton extends Component {
     }
 
     render() {
-        this.test();
+        // this.test();
         // console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;

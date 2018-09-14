@@ -23,6 +23,8 @@ const styles = {
         justifyContent: 'flex-start',
         flexDirection: 'row',
         position: 'relative',
+        alignSelf: 'stretch',
+        // flex: 1,
     },
 };
 
