@@ -10,7 +10,8 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    LikeButton } from './common';
+    LikeButton,
+    ProgressDisplay } from './common';
 
 import playerUtils from '../player/playerUtils';
 
@@ -77,7 +78,6 @@ class AudiobookDetail extends React.Component {
             <TouchableOpacity onPress={this.startPlayPress}>
             <Card>
                 <CardSection>
-                    {/* {this.renderProgressBar()} */}
                     <View style={infoContainer}>
                         <View>
                             <Text style={authorStyle}>{author}</Text>
