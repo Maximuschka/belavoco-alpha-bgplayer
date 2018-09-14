@@ -1,12 +1,23 @@
 // Import a library to help create a component
 import React from 'react';
+// import moment from 'moment';
+
 import { View, Text } from 'react-native';
-import PlayButton from './common/PlayButton';
+import * as Progress from 'react-native-progress';
+
+// import PlayButton from './common/PlayButton';
+
+import {
+    PlayButton,
+    ProgressDisplay } from './common';
+
 import playerUtils from '../player/playerUtils';
 
 import Colors from '../constants/Colors';
 
 // Make a component
+
+let interval;
 
 export default class AudioPlayer extends React.Component {
     constructor(props) {
@@ -14,15 +25,40 @@ export default class AudioPlayer extends React.Component {
         this.playFinishHandlerAP = this.playFinishHandlerAP.bind(this);
       }
 
+      state = {
+        progress: null,
+        position: 0,
+    };
+
+    componentDidMount() {
+        interval = setInterval(() => {
+            this.setState({ 
+                progress: playerUtils.getProgress()[0],
+                position: playerUtils.getProgress()[1],
+            });
+            console.log(playerUtils.getProgress());
+        }, 1000);
+      }
+    
+      componentWillUnmount() {
+        clearInterval(interval);
+      }
+
       playFinishHandlerAP() {
         this.props.playFinishHandlerMS();
       }
 
+
     render() {
+        console.log('Progress State: ' + this.state.progress);
         const playFinishHandlerAP = this.playFinishHandlerAP;
 
         const {
             containerStyle,
+            infoContainerStyle,
+            progressContainerStyle,
+            progressBarStyle,
+            progressDisplayStyle,
             buttonContainer,
             infoContainer,
             authorStyle,
@@ -31,15 +67,33 @@ export default class AudioPlayer extends React.Component {
 
       return (
         <View style={containerStyle}>
-            <View style={buttonContainer}>
-                <PlayButton
-                    playingState={'PLAYING'}
-                    playFinishHandlerAP={playFinishHandlerAP}
-                />
+            <View style={infoContainerStyle}>
+                <View style={buttonContainer}>
+                    <PlayButton
+                        playingState={'PLAYING'}
+                        playFinishHandlerAP={playFinishHandlerAP}
+                    />
+                </View>
+                <View style={infoContainer}>
+                    <Text style={authorStyle}>{this.props.author}</Text>
+                    <Text style={titleStyle}>{this.props.title}</Text>
+                </View>
             </View>
-            <View style={infoContainer}>
-                <Text style={authorStyle}>{this.props.author}</Text>
-                <Text style={titleStyle}>{this.props.title}</Text>
+            <View style={progressContainerStyle}>
+                <View style={progressBarStyle}>
+                    <Progress.Bar 
+                        progress={this.state.progress} 
+                        width={null}
+                        color='grey'
+                        animated={false}
+                    />
+                </View>
+                <View style={progressDisplayStyle}>
+                    <ProgressDisplay
+                        position={this.state.position}
+                        length={this.props.length}
+                    />
+                </View>
             </View>
         </View>
       );
@@ -48,27 +102,38 @@ export default class AudioPlayer extends React.Component {
 
 const styles = {
     containerStyle: {
-        // borderBottomWidth: 1,
-        // height: 30,
-        padding: 5,
-        // backgroundColor: '#ffe6ff',
-        justifyContent: 'flex-start',
+        flex: 1,
+    },
+    infoContainerStyle: {
+        justifyContent: 'center',
         flexDirection: 'row',
         borderColor: '#ddd',
         position: 'relative',
-        // flex: 5,
+        flex: 3,
+    },
+    progressContainerStyle: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        flex: 1,
+    },
+    progressBarStyle: {
+        flex: 0.9,
+    },
+    progressDisplayStyle: {
+        minWidth: 35,
+        flex: 0.1,
     },
     buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         width: 50,
-        // flex: 1,
+        flex: 1,
     },
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
         marginLeft: 8,
-        // flex: 4
+        flex: 4
     },
     authorStyle: {
         fontSize: 15,

@@ -7,4 +7,4 @@ export * from './ButtonSmall';
 export * from './Spinner';
 export * from './InfoIcon';
 export * from './LikeButton';
-export * from './AudioProgressBar';
+export * from './ProgressDisplay';

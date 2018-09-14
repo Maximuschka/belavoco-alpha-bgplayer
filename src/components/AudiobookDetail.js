@@ -10,8 +10,8 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    AudioProgressBar,
-    LikeButton } from './common';
+    LikeButton,
+    ProgressDisplay } from './common';
 
 import playerUtils from '../player/playerUtils';
 
@@ -20,7 +20,6 @@ class AudiobookDetail extends React.Component {
     state = {
         isLoading: true,
         selectedAudiobook: null,
-        audioProgress: null,
         like: false,
     }
 
@@ -54,17 +53,6 @@ class AudiobookDetail extends React.Component {
         });
     }
 
-    // audioBookProgressHandler(someArg) {
-    //     this.setState({ audioProgress: someArg });
-    //   }
-
-    // renderProgressBar() {
-    //     if (this.state.audioProgress === null) {
-    //         return null;
-    //     }
-    //     return <AudioProgressBar progress={this.state.audioProgress} />;
-    // }
-
     render() {
         const {
             id,
@@ -86,14 +74,10 @@ class AudiobookDetail extends React.Component {
             likeButtonContainer,
         } = styles;
 
-        // const audioBookProgressHandler = this.audioBookProgressHandler;
-        // const duration = length * 1000;
-
         return (
             <TouchableOpacity onPress={this.startPlayPress}>
             <Card>
                 <CardSection>
-                    {/* {this.renderProgressBar()} */}
                     <View style={infoContainer}>
                         <View>
                             <Text style={authorStyle}>{author}</Text>
@@ -131,7 +115,6 @@ class AudiobookDetail extends React.Component {
                             like={this.state.like}
                         />
                     </TouchableOpacity>
-                    {/* {this.renderProgressBar()} */}
                 </CardSection>
             </Card>
             </TouchableOpacity>
