@@ -36,7 +36,6 @@ export default class AudioPlayer extends React.Component {
                 progress: playerUtils.getProgress()[0],
                 position: playerUtils.getProgress()[1],
             });
-            console.log(playerUtils.getProgress());
         }, 1000);
       }
     
@@ -50,7 +49,6 @@ export default class AudioPlayer extends React.Component {
 
 
     render() {
-        console.log('Progress State: ' + this.state.progress);
         const playFinishHandlerAP = this.playFinishHandlerAP;
 
         const {

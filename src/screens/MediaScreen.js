@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
 import axios from 'axios';
 
 import AudiobookList from '../components/AudiobookList';
@@ -30,7 +30,8 @@ export default class MediaScreen extends Component {
     audiobooks: [],
     typeChoice: 'all',
     playerActivity: false,
-    selectedAudiobook: null
+    selectedAudiobook: null,
+    refreshing: false,
   };
 
   componentWillMount() {
@@ -41,6 +42,21 @@ export default class MediaScreen extends Component {
        }))
     .catch(e => console.log(e));
 }
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.refreshData();
+    this.setState({ refreshing: false });
+  }
+
+  refreshData() {
+    axios.get('https://www.belavo.co/api/get/all')
+    .then(response => this.setState({
+        audiobooks: response.data,
+        loading: false
+       }))
+    .catch(e => console.log(e));
+  }
 
   choiceHandler(someArg) {
     this.setState({ typeChoice: someArg });
@@ -94,6 +110,7 @@ export default class MediaScreen extends Component {
                 title={title}
                 audiobookURL={file_url}
                 length={length}
+                initialP={0}
                 playFinishHandlerMS={playFinishHandlerMS}
               />
             </CardSectionAP>
@@ -130,7 +147,15 @@ export default class MediaScreen extends Component {
             />
           </CardSection>
         </Card>
-        <ScrollView>
+
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}
