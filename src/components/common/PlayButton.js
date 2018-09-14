@@ -13,15 +13,11 @@ import playerUtils from '../../player/playerUtils';
 import Colors from '../../constants/Colors';
 
 // Make a component
-export default class PlayButton extends Component {
+class PlayButton extends Component {
     state = {
         isLoading: true,
-        playingState: this.props.playingState
+        playingState: this.props.playingState,
     };
-
-    test() {
-        playerUtils.currentProgress();
-    }
 
     componentWillMount() {
         this.setState({
@@ -105,8 +101,6 @@ export default class PlayButton extends Component {
     }
 
     render() {
-        // this.test();
-        // console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
 
@@ -135,3 +129,5 @@ const styles = StyleSheet.create({
         width: 50,
     },
 });
+
+export default PlayButton;

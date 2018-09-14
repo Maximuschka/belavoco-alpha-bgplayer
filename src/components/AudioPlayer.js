@@ -1,14 +1,20 @@
 // Import a library to help create a component
 import React from 'react';
+// import moment from 'moment';
+
 import { View, Text } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 import PlayButton from './common/PlayButton';
+
 import playerUtils from '../player/playerUtils';
 
 import Colors from '../constants/Colors';
 
 // Make a component
+
+let interval;
+let duration;
 
 export default class AudioPlayer extends React.Component {
     constructor(props) {
@@ -16,11 +22,32 @@ export default class AudioPlayer extends React.Component {
         this.playFinishHandlerAP = this.playFinishHandlerAP.bind(this);
       }
 
+      state = {
+        progress: null,
+        position: null,
+    };
+
+    componentDidMount() {
+        interval = setInterval(() => {
+            this.setState({ 
+                progress: playerUtils.getProgress()[0],
+                position: playerUtils.getProgress()[1] 
+            });
+            console.log(playerUtils.getProgress());
+        }, 1000);
+      }
+    
+      componentWillUnmount() {
+        clearInterval(interval);
+      }
+
       playFinishHandlerAP() {
         this.props.playFinishHandlerMS();
       }
 
+
     render() {
+        console.log('Progress State: ' + this.state.progress);
         const playFinishHandlerAP = this.playFinishHandlerAP;
 
         const {
@@ -47,9 +74,10 @@ export default class AudioPlayer extends React.Component {
                 </View>
             </View>
             <Progress.Bar 
-                progress={0.3} 
+                progress={this.state.progress} 
                 width={null}
                 color='grey'
+                animated={false}
             />
         </View>
       );

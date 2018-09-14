@@ -15,23 +15,18 @@ const playerUtils = {
     pauseAudioBook() {
         RNAudioStreamer.pause();
     },
-    currentProgress() {
-        console.log('########################');
+    getProgress() {
         RNAudioStreamer.duration((err, duration) => {
             length = duration;
            });
-        console.log('Länge: ' + length);
 
         RNAudioStreamer.currentTime((err, currentTime) => {
-            console.log('currentTIme: ' + currentTime);
             position = currentTime;
         });
-        console.log('Position: ' + position);
         if (length > 0) {
-            progress = (position / length) * 100;
-            console.log('Progress: ' + progress);
+            progress = (position / length);
         }
-        return progress;
+        return [progress, position, length];
     },
     function4() {
         console.log(4);
