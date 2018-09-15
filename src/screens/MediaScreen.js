@@ -111,7 +111,7 @@ export default class MediaScreen extends Component {
                 title={title}
                 audiobookURL={file_url}
                 length={length}
-                initialP={0}
+                progress={0}
                 playFinishHandlerMS={playFinishHandlerMS}
               />
             </CardSectionAP>

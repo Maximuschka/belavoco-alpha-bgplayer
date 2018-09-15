@@ -26,19 +26,36 @@ export default class AudioPlayer extends React.Component {
       }
 
       state = {
-        progress: null,
+        progress: this.props.progress,
         position: 0,
+        loadingProgress: false
     };
 
     componentDidMount() {
         interval = setInterval(() => {
-            this.setState({ 
-                progress: playerUtils.getProgress()[0],
-                position: playerUtils.getProgress()[1],
-            });
-        }, 1000);
+            if (this.state.loadingProgress === false) {
+                this.setState({ 
+                    progress: playerUtils.getProgress()[0],
+                    position: playerUtils.getProgress()[1],
+                });
+            }
+        }, 500);
       }
     
+    componentWillReceiveProps(nextProps) {
+        if (this.props !== nextProps) {
+            this.setState({
+                progress: nextProps.progress,
+                loadingProgress: true
+            });
+            setTimeout(() => {
+                this.setState({
+                    loadingProgress: false
+                });
+           }, 1500);
+        }
+    }
+
       componentWillUnmount() {
         clearInterval(interval);
       }

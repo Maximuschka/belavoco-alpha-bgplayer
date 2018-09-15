@@ -10,11 +10,9 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    LikeButton,
-    ProgressDisplay } from './common';
+    LikeButton } from './common';
 
 import playerUtils from '../player/playerUtils';
-import apiUtils from '../api/apiUtils';
 
 // Make a component
 class AudiobookDetail extends React.Component {
@@ -51,25 +49,6 @@ class AudiobookDetail extends React.Component {
         playerUtils.startAudioBook(this.props.audiobook.file_url);
         this.props.selectionHandlerList(this.props.audiobook);
       }
-
-    // likePress = () => {
-    //     const hash = this.props.audiobook.hash;
-    //     const id = String(this.props.audiobook.id);
-
-    //     if (this.state.like === false) {
-    //         apiUtils.addLike(hash);
-    //     }
-
-    //     if (this.state.like === true) {
-    //         apiUtils.substractLike(hash);
-    //     }
-
-    //     this.setState({
-    //         like: !this.state.like
-    //     }, () => {
-    //         AsyncStorage.setItem(id, JSON.stringify(this.state.like));
-    //         });
-    //     }
 
     async loadLikeState() {
         const id = String(this.props.audiobook.id);
