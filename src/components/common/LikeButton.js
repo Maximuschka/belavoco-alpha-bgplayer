@@ -1,7 +1,9 @@
 // Import a library to help create a component
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+import apiUtils from '../../api/apiUtils';
 
 
 // Make a component
@@ -17,6 +19,20 @@ class LikeButton extends React.Component {
           });
         }
       }
+
+      likePress = () => {
+        const oldLike = this.props.like;
+        const hash = this.props.hash;
+
+        if (oldLike === false) {
+            apiUtils.addLike(hash);
+        }
+
+        if (oldLike === true) {
+            apiUtils.substractLike(hash);
+        }
+        this.props.likeHandler();
+        }
 
     renderLikeState(iconStyle) {
         if (String(this.state.like) === 'true') {
@@ -47,9 +63,9 @@ class LikeButton extends React.Component {
             iconStyle,
         } = styles;
         return (
-            <View style={containerStyle}>
+            <TouchableOpacity onPress={this.likePress} style={containerStyle}>
                 {this.renderLikeState(iconStyle)}
-            </View>
+            </TouchableOpacity>
         );
     }
 }

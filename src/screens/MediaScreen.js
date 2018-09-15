@@ -98,6 +98,7 @@ export default class MediaScreen extends Component {
         title,
         reader,
         file_url,
+        times_liked,
         times_played,
         length
     } = this.state.selectedAudiobook;
@@ -120,7 +121,6 @@ export default class MediaScreen extends Component {
 }
 
   render() {
-    // console.log(this.state.playerActivity);
     if (this.state.selectedAudiobook !== null) {
     }
     const choiceHandler = this.choiceHandler;

@@ -14,9 +14,15 @@ import {
     ProgressDisplay } from './common';
 
 import playerUtils from '../player/playerUtils';
+import apiUtils from '../api/apiUtils';
 
 // Make a component
 class AudiobookDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.likeHandler = this.likeHandler.bind(this);
+      }
+
     state = {
         isLoading: true,
         selectedAudiobook: null,
@@ -30,20 +36,40 @@ class AudiobookDetail extends React.Component {
         });
     }
 
+    async likeHandler() {
+        const id = String(this.props.audiobook.id);
+
+        this.setState({
+            like: !this.state.like
+        }, () => {
+            AsyncStorage.setItem(id, JSON.stringify(this.state.like));
+            });
+      }
+
     startPlayPress = () => {
         //playerUtils.startAudioBook('http://www.schillmania.com/projects/soundmanager2/demo/_mp3/rain.mp3');
         playerUtils.startAudioBook(this.props.audiobook.file_url);
         this.props.selectionHandlerList(this.props.audiobook);
       }
 
-    likePress = () => {
-        const id = String(this.props.audiobook.id);
-        this.setState({
-            like: !this.state.like
-        }, () => {
-            AsyncStorage.setItem(id, JSON.stringify(this.state.like));
-            });
-        }
+    // likePress = () => {
+    //     const hash = this.props.audiobook.hash;
+    //     const id = String(this.props.audiobook.id);
+
+    //     if (this.state.like === false) {
+    //         apiUtils.addLike(hash);
+    //     }
+
+    //     if (this.state.like === true) {
+    //         apiUtils.substractLike(hash);
+    //     }
+
+    //     this.setState({
+    //         like: !this.state.like
+    //     }, () => {
+    //         AsyncStorage.setItem(id, JSON.stringify(this.state.like));
+    //         });
+    //     }
 
     async loadLikeState() {
         const id = String(this.props.audiobook.id);
@@ -60,6 +86,8 @@ class AudiobookDetail extends React.Component {
             title,
             reader,
             file_url,
+            hash,
+            times_liked,
             times_played,
             length
         } = this.props.audiobook;
@@ -73,6 +101,8 @@ class AudiobookDetail extends React.Component {
             titleStyle,
             likeButtonContainer,
         } = styles;
+
+        const likeHandler = this.likeHandler;
 
         return (
             <TouchableOpacity onPress={this.startPlayPress}>
@@ -105,16 +135,17 @@ class AudiobookDetail extends React.Component {
                                 <InfoIcon
                                     type="evilicon"
                                     name="like"
-                                    text='0'
+                                    text={times_liked}
                                 />
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity onPress={this.likePress} style={likeButtonContainer}>
-                        <LikeButton
-                            like={this.state.like}
-                        />
-                    </TouchableOpacity>
+                    <LikeButton
+                        id={this.props.audiobook.id}
+                        hash={this.props.audiobook.hash}
+                        like={this.state.like}
+                        likeHandler={likeHandler.bind(this)}
+                    />
                 </CardSection>
             </Card>
             </TouchableOpacity>
