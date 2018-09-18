@@ -34,14 +34,14 @@ export default class AudioPlayer extends React.Component {
     componentDidMount() {
         interval = setInterval(() => {
             if (this.state.loadingProgress === false) {
-                this.setState({ 
+                this.setState({
                     progress: playerUtils.getProgress()[0],
                     position: playerUtils.getProgress()[1],
                 });
             }
         }, 500);
       }
-    
+
     componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.setState({
@@ -96,8 +96,8 @@ export default class AudioPlayer extends React.Component {
             </View>
             <View style={progressContainerStyle}>
                 <View style={progressBarStyle}>
-                    <Progress.Bar 
-                        progress={this.state.progress} 
+                    <Progress.Bar
+                        progress={this.state.progress}
                         width={null}
                         color='grey'
                         animated={false}
@@ -132,11 +132,11 @@ const styles = {
         flex: 1,
     },
     progressBarStyle: {
-        flex: 0.9,
+        flex: 3,
     },
     progressDisplayStyle: {
-        minWidth: 35,
-        flex: 0.1,
+        //minWidth: 35,
+        flex: 1,
     },
     buttonContainer: {
         justifyContent: 'center',

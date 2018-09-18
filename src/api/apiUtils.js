@@ -2,11 +2,11 @@ import axios from 'axios';
 
 const apiUtils = {
     addLike(hash) {
-        axios.get('http://www.belavo.co/api/set/' + hash + '/like')
+        axios.get('https://www.belavo.co/api/set/' + hash + '/like')
         .catch(e => console.log(e));
     },
     substractLike(hash) {
-        axios.get('http://www.belavo.co/api/set/' + hash + '/unlike')
+        axios.get('https://www.belavo.co/api/set/' + hash + '/unlike')
         .catch(e => console.log(e));
     },
     function6() {
