@@ -52,7 +52,12 @@ class AudiobookDetail extends React.Component {
 
     async loadLikeState() {
         const id = String(this.props.audiobook.id);
-        const likeState = await AsyncStorage.getItem(id);
+        likeState = await AsyncStorage.getItem(id);
+
+        if (likeState === null){
+          likeState = false
+        }
+
         this.setState({
             like: likeState
         });

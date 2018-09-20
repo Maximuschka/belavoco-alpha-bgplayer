@@ -8,7 +8,7 @@ import apiUtils from '../../api/apiUtils';
 
 // Make a component
 class LikeButton extends React.Component {
-    state = { 
+    state = {
         like: this.props.like,
     }
 
@@ -58,7 +58,7 @@ class LikeButton extends React.Component {
     }
 
     render() {
-        const { 
+        const {
             containerStyle,
             iconStyle,
         } = styles;

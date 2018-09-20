@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { 
-    View, 
-    ScrollView, 
+import {
+    View,
+    ScrollView,
     StyleSheet,
     Linking
     } from 'react-native';
@@ -14,15 +14,15 @@ export default class RecorderScreen extends Component {
   static navigationOptions = {
     title: 'Aufnahme',
   };
-  
+
   render() {
     const url = 'http://www.belavo.co/';
     return (
         <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <Button 
-            buttonText={'Aufnahme'} 
-            onPress={() => Linking.openURL(url)} 
+          <Button
+            buttonText={'Aufnahme'}
+            onPress={() => Linking.openURL(url)}
           />
         </ScrollView>
         <NameModalStartUp />

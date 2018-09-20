@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { 
-    Modal, 
-    Text, 
-    TouchableHighlight, 
-    View, 
-    TextInput, 
-    StyleSheet, 
+import {
+    Modal,
+    Text,
+    TouchableHighlight,
+    View,
+    TextInput,
+    StyleSheet,
     AsyncStorage } from 'react-native';
 // import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
 class NameModalStartUp extends Component {
   state = {
-    modalVisible: true,
+    modalVisible: false,
     name: ''
   };
 
@@ -26,8 +26,8 @@ class NameModalStartUp extends Component {
   async setInitialModalVisible() {
     try {
         const value = await AsyncStorage.getItem('name');
-        if (value !== null) {
-          this.setState({ modalVisible: false, name: value });
+        if (value === null) {
+          this.setState({ modalVisible: true });
         }
       } catch (error) {
         // Error retrieving data
@@ -59,7 +59,7 @@ class NameModalStartUp extends Component {
                 label='Username'
                 value={this.state.name}
                 onChangeText={text => {
-                    AsyncStorage.setItem('name', text); 
+                    AsyncStorage.setItem('name', text);
                     this.setState({ name: text });
                     }
                 }
