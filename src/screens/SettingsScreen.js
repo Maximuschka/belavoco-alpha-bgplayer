@@ -1,9 +1,17 @@
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, 
+  Text, 
+  StyleSheet, 
+  AsyncStorage,
+  Switch } from 'react-native';
 import NameInput from '../components/NameInput';
-import { Card, CardSection } from '../components/common';
+import { 
+  Card, 
+  CardSection,
+  } from '../components/common';
 
+import playerUtils from '../player/playerUtils';
 import Colors from '../constants/Colors';
 
 export default class SettingsScreen extends Component {
@@ -16,11 +24,31 @@ export default class SettingsScreen extends Component {
     this.handleToUpdate.bind(this);
   }
 
-  state = { username: '' };
+  state = { 
+    loading: true,
+    username: '',
+    autoplay: false,
+  };
 
-  async componentWillMount() {
+  componentWillMount() {
+    this.loadingAsync();
+  }
+
+  async loadingAsync() {
     const usernameGet = await AsyncStorage.getItem('name');
+    const autoplayGet = await playerUtils.loadAutoplayStatus();
+
     this.setState({ username: usernameGet });
+    if (autoplayGet === 'true') {
+      this.setState({ autoplay: true });
+    } else {
+      this.setState({ autoplay: false });
+    }
+  }
+
+  async toggleAutoplayState(value) {
+    this.setState({ autoplay: value });
+    await AsyncStorage.setItem('autoplay', JSON.stringify(value));
   }
 
   handleToUpdate(someArg) {
@@ -42,6 +70,19 @@ export default class SettingsScreen extends Component {
                 buttonText={'Change'}
                 handleToUpdate={handleToUpdate.bind(this)}
               />
+            </View>
+          </CardSection>
+        </Card>
+        <Card>
+          <CardSection>
+            <View style={infoContainer}>
+              <Text style={titleStyle}>{'Autoplay: '}</Text>
+            </View>
+            <View style={buttonContainer}>
+              <Switch 
+                onValueChange={(value) => this.toggleAutoplayState(value)}
+                value={this.state.autoplay}
+              /> 
             </View>
           </CardSection>
         </Card>

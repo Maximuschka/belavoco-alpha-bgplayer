@@ -92,25 +92,12 @@ export default class MediaScreen extends Component {
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
 
-      const {
-        id,
-        author,
-        title,
-        reader,
-        file_url,
-        times_liked,
-        times_played,
-        length
-    } = this.state.selectedAudiobook;
-
         return (
           <Card>
             <CardSectionAP>
               <AudioPlayer
-                author={author}
-                title={title}
-                audiobookURL={file_url}
-                length={length}
+                audiobook={this.state.selectedAudiobook}
+                audiobooks={this.state.audiobooks}
                 progress={0}
                 playFinishHandlerMS={playFinishHandlerMS}
               />

@@ -1,6 +1,5 @@
 // Import a library to help create a component
 import React from 'react';
-// import moment from 'moment';
 
 import { View, Text } from 'react-native';
 import * as Progress from 'react-native-progress';
@@ -12,6 +11,7 @@ import {
     ProgressDisplay } from './common';
 
 import playerUtils from '../player/playerUtils';
+import audiobookUtils from '../utils/audiobookUtils';
 
 import Colors from '../constants/Colors';
 
@@ -23,15 +23,20 @@ export default class AudioPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.playFinishHandlerAP = this.playFinishHandlerAP.bind(this);
+        this.audiobookInfoHandler = this.audiobookInfoHandler.bind(this);
       }
 
       state = {
+        audiobook: this.props.audiobook,
+        audiobooks: this.props.audiobooks,
         progress: this.props.progress,
         position: 0,
-        loadingProgress: false
+        loadingProgress: false,
+        autoplay: false,
     };
 
     componentDidMount() {
+        this.loadingAutoplayState();
         interval = setInterval(() => {
             if (this.state.loadingProgress === false) {
                 this.setState({
@@ -45,6 +50,8 @@ export default class AudioPlayer extends React.Component {
     componentWillReceiveProps(nextProps) {
         if (this.props !== nextProps) {
             this.setState({
+                audiobook: nextProps.audiobook,
+                audiobooks: nextProps.audiobooks,
                 progress: nextProps.progress,
                 loadingProgress: true
             });
@@ -56,17 +63,40 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
-      componentWillUnmount() {
+    componentWillUnmount() {
         clearInterval(interval);
-      }
+    }
 
-      playFinishHandlerAP() {
-        this.props.playFinishHandlerMS();
-      }
+    async loadingAutoplayState() {
+        const autoplayGet = await playerUtils.loadAutoplayStatus();
+        if (autoplayGet === 'true') {
+          this.setState({ autoplay: true });
+        } else {
+          this.setState({ autoplay: false });
+        }
+    }
 
+    playFinishHandlerAP() {
+        if (this.state.autoplay === false) {
+            this.props.playFinishHandlerMS();
+        } else if (this.state.autoplay === true) {
+            const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.audiobooks);
+            this.setState({ audiobook: randomAudiobook });
+            playerUtils.startAudioBook(randomAudiobook.file_url);
+        }
+    }
+
+    audiobookInfoHandler(randomAudiobook) {
+        this.setState({
+            audiobook: randomAudiobook,
+        });
+    }
 
     render() {
+        console.log('Autoplay: ' + this.state.autoplay);
+        console.log('Audiobook: ' + this.state.audiobook.title);
         const playFinishHandlerAP = this.playFinishHandlerAP;
+        const audiobookInfoHandler = this.audiobookInfoHandler;
 
         const {
             containerStyle,
@@ -87,11 +117,14 @@ export default class AudioPlayer extends React.Component {
                     <PlayButton
                         playingState={'PLAYING'}
                         playFinishHandlerAP={playFinishHandlerAP}
+                        audiobookInfoHandler={audiobookInfoHandler}
                     />
                 </View>
                 <View style={infoContainer}>
-                    <Text style={authorStyle}>{this.props.author}</Text>
-                    <Text style={titleStyle}>{this.props.title}</Text>
+                    {/* <Text style={authorStyle}>{this.props.author}</Text> */}
+                    <Text style={authorStyle}>{this.state.audiobook.author}</Text>
+                    {/* <Text style={titleStyle}>{this.props.title}</Text> */}
+                    <Text style={titleStyle}>{this.state.audiobook.title}</Text>
                 </View>
             </View>
             <View style={progressContainerStyle}>
@@ -106,7 +139,8 @@ export default class AudioPlayer extends React.Component {
                 <View style={progressDisplayStyle}>
                     <ProgressDisplay
                         position={this.state.position}
-                        length={this.props.length}
+                        // length={this.props.length}
+                        length={this.state.audiobook.length}
                     />
                 </View>
             </View>
