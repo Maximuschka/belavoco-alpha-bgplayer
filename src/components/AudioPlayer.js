@@ -50,7 +50,7 @@ export default class AudioPlayer extends React.Component {
         if (this.props !== nextProps) {
             this.setState({
                 audiobook: nextProps.audiobook,
-                playlist: nextProps.audiobooks,
+                // playlist: nextProps.audiobooks, #dont activate. It will flaw playlist
                 progress: nextProps.progress,
                 loadingProgress: true
             });
@@ -76,7 +76,6 @@ export default class AudioPlayer extends React.Component {
     }
 
     playFinishHandlerAP() {
-        console.log('Length: ' + this.state.playlist.length);
         if (this.state.autoplay === false) {
             this.props.playFinishHandlerMS(null);
         } else if (this.state.autoplay === true && this.state.playlist.length > 0) {
@@ -93,15 +92,8 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
-    renderPlayer() {
-        if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
-        }
-    }
-
-    render() {
-        // console.log(this.state.audiobook);
+    renderPlayerContent() {
         const playFinishHandlerAP = this.playFinishHandlerAP;
-
         const {
             containerStyle,
             infoContainerStyle,
@@ -114,41 +106,62 @@ export default class AudioPlayer extends React.Component {
             titleStyle,
         } = styles;
 
-      return (
-        
-        <View style={containerStyle}>
-            <View style={infoContainerStyle}>
-                <View style={buttonContainer}>
-                    <PlayButton
-                        playingState={'PLAYING'}
-                        playFinishHandlerAP={playFinishHandlerAP}
-                    />
+        if (this.state.audiobook !== null) {
+            return (
+                <View style={containerStyle}>
+                    <View style={infoContainerStyle}>
+                        <View style={buttonContainer}>
+                            <PlayButton
+                                playingState={'PLAYING'}
+                                playFinishHandlerAP={playFinishHandlerAP}
+                            />
+                        </View>
+                        <View style={infoContainer}>
+                            <Text style={authorStyle}>{this.state.audiobook.author}</Text>
+                            <Text style={titleStyle}>{this.state.audiobook.title}</Text>
+                        </View>
+                    </View>
+                    <View style={progressContainerStyle}>
+                        <View style={progressBarStyle}>
+                            <Progress.Bar
+                                progress={this.state.progress}
+                                width={null}
+                                color='grey'
+                                animated={false}
+                            />
+                        </View>
+                        <View style={progressDisplayStyle}>
+                            <ProgressDisplay
+                                position={this.state.position}
+                                length={this.state.audiobook.length}
+                            />
+                        </View>
+                    </View>
                 </View>
-                <View style={infoContainer}>
+            );
+        } else if (this.state.audiobook === null) {
+            return (
+                <View style={containerStyle}>
+                    <View style={infoContainerStyle}>
+                        <View style={buttonContainer}>
+                            <PlayButton
+                                playingState={'PLAYING'}
+                                playFinishHandlerAP={playFinishHandlerAP}
+                            />
+                        </View>
+                        <View style={infoContainer}>
+                            <Text style={titleStyle}>Nothing to Play</Text>
+                        </View>
+                    </View>
+                </View>
+            );
+        }
+    }
 
-                    {/* <Text style={authorStyle}>{this.props.author}</Text> */}
-                    <Text style={authorStyle}>{this.state.audiobook.author}</Text>
-                    {/* <Text style={titleStyle}>{this.props.title}</Text> */}
-                    <Text style={titleStyle}>{this.state.audiobook.title}</Text>
-                </View>
-            </View>
-            <View style={progressContainerStyle}>
-                <View style={progressBarStyle}>
-                    <Progress.Bar
-                        progress={this.state.progress}
-                        width={null}
-                        color='grey'
-                        animated={false}
-                    />
-                </View>
-                <View style={progressDisplayStyle}>
-                    <ProgressDisplay
-                        position={this.state.position}
-                        // length={this.props.length}
-                        length={this.state.audiobook.length}
-                    />
-                </View>
-            </View>
+    render() {
+      return (
+        <View style={styles.containerStyle}>
+            {this.renderPlayerContent()}
         </View>
       );
     }

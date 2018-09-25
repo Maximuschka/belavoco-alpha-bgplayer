@@ -97,10 +97,25 @@ class PlayButton extends Component {
                     color='grey'
                 />
             );
+        } else if (String(playingState) === 'FINISHED') {
+            return (
+                <Icon
+                    name={
+                        Platform.OS === 'ios'
+                            ? 'ios-square'
+                            : 'md-square'
+                        }
+                    size={45}
+                    style={iconStyle}
+                    type='ionicon'
+                    color='grey'
+                />
+            );
         } 
     }
 
     render() {
+        console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
 

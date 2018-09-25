@@ -90,8 +90,6 @@ export default class MediaScreen extends Component {
     if (this.state.loading) {
         return <Spinner />;
     }
-      console.log('#############################');
-      console.log(this.state.audiobooks);
       return (
         <AudiobookList
           audioBookChoice={this.state.typeChoice}
