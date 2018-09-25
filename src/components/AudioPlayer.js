@@ -23,12 +23,11 @@ export default class AudioPlayer extends React.Component {
     constructor(props) {
         super(props);
         this.playFinishHandlerAP = this.playFinishHandlerAP.bind(this);
-        this.audiobookInfoHandler = this.audiobookInfoHandler.bind(this);
       }
 
       state = {
         audiobook: this.props.audiobook,
-        audiobooks: this.props.audiobooks,
+        playlist: this.props.audiobooks,
         progress: this.props.progress,
         position: 0,
         loadingProgress: false,
@@ -51,7 +50,7 @@ export default class AudioPlayer extends React.Component {
         if (this.props !== nextProps) {
             this.setState({
                 audiobook: nextProps.audiobook,
-                audiobooks: nextProps.audiobooks,
+                playlist: nextProps.audiobooks,
                 progress: nextProps.progress,
                 loadingProgress: true
             });
@@ -77,26 +76,31 @@ export default class AudioPlayer extends React.Component {
     }
 
     playFinishHandlerAP() {
+        console.log('Length: ' + this.state.playlist.length);
         if (this.state.autoplay === false) {
-            this.props.playFinishHandlerMS();
-        } else if (this.state.autoplay === true) {
-            const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.audiobooks);
-            this.setState({ audiobook: randomAudiobook });
-            playerUtils.startAudioBook(randomAudiobook.file_url);
+            this.props.playFinishHandlerMS(null);
+        } else if (this.state.autoplay === true && this.state.playlist.length > 0) {
+            const index = this.state.playlist.indexOf(this.state.audiobook);
+            const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.playlist, index);
+            this.setState({ 
+                audiobook: randomAudiobook[0],
+                playlist: randomAudiobook[1]
+            });
+            this.props.playFinishHandlerMS(randomAudiobook[0]);
+            playerUtils.startAudioBook(randomAudiobook[0].file_url);
+        } else if (this.state.autoplay === true && this.state.playlist.length === 0) {
+            this.setState({ audiobook: null });
         }
     }
 
-    audiobookInfoHandler(randomAudiobook) {
-        this.setState({
-            audiobook: randomAudiobook,
-        });
+    renderPlayer() {
+        if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
+        }
     }
 
     render() {
-        console.log('Autoplay: ' + this.state.autoplay);
-        console.log('Audiobook: ' + this.state.audiobook.title);
+        // console.log(this.state.audiobook);
         const playFinishHandlerAP = this.playFinishHandlerAP;
-        const audiobookInfoHandler = this.audiobookInfoHandler;
 
         const {
             containerStyle,
@@ -111,16 +115,17 @@ export default class AudioPlayer extends React.Component {
         } = styles;
 
       return (
+        
         <View style={containerStyle}>
             <View style={infoContainerStyle}>
                 <View style={buttonContainer}>
                     <PlayButton
                         playingState={'PLAYING'}
                         playFinishHandlerAP={playFinishHandlerAP}
-                        audiobookInfoHandler={audiobookInfoHandler}
                     />
                 </View>
                 <View style={infoContainer}>
+
                     {/* <Text style={authorStyle}>{this.props.author}</Text> */}
                     <Text style={authorStyle}>{this.state.audiobook.author}</Text>
                     {/* <Text style={titleStyle}>{this.props.title}</Text> */}

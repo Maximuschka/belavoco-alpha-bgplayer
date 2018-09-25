@@ -1,7 +1,9 @@
 const audiobookUtils = {
-    getRandomAudiobook(audiobooks) {
+    getRandomAudiobook(audiobooks, lastID) {
+        var newPlaylist = audiobooks.filter((_, i) => i !== lastID);
         const randomNumber = Math.floor(Math.random() * (audiobooks.length - 1));
-        return audiobooks[randomNumber];
+        const randomAudiobook = audiobooks[randomNumber];
+        return [randomAudiobook, newPlaylist];
     },
     function5() {
         console.log(5);

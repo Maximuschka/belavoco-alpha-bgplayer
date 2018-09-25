@@ -31,6 +31,7 @@ export default class MediaScreen extends Component {
     typeChoice: 'all',
     playerActivity: false,
     selectedAudiobook: null,
+    transmitToChildren: true,
     refreshing: false,
   };
 
@@ -44,18 +45,21 @@ export default class MediaScreen extends Component {
 }
 
   _onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.refreshData();
+    this.setState({ refreshing: true },
+    this.refreshData()
+    );
     this.setState({ refreshing: false });
   }
 
   refreshData() {
+    // this.setState({ transmitToChildren: false });
     axios.get('https://www.belavo.co/api/get/all')
     .then(response => this.setState({
         audiobooks: response.data,
         loading: false
        }))
     .catch(e => console.log(e));
+    // this.setState({ transmitToChildren: true });
   }
 
   choiceHandler(someArg) {
@@ -69,42 +73,50 @@ export default class MediaScreen extends Component {
     });
   }
 
-  playFinishHandlerMS() {
-    this.setState({
-      playerActivity: false
-    });
+  playFinishHandlerMS(audiobook) {
+    if (audiobook === null) {
+      this.setState({
+        playerActivity: false,
+        selectedAudiobook: audiobook,
+      });
+    } else {
+      this.setState({
+        selectedAudiobook: audiobook,
+      });
+    }
   }
 
   renderAudioBookList(selectionHandlerMediaScreen) {
     if (this.state.loading) {
         return <Spinner />;
     }
-
-    return (
-      <AudiobookList
-        audioBookChoice={this.state.typeChoice}
-        audiobooks={this.state.audiobooks}
-        selectionHandlerMediaScreen={selectionHandlerMediaScreen}
-      />
-    );
+      console.log('#############################');
+      console.log(this.state.audiobooks);
+      return (
+        <AudiobookList
+          audioBookChoice={this.state.typeChoice}
+          audiobooks={this.state.audiobooks}
+          selectionHandlerMediaScreen={selectionHandlerMediaScreen}
+        />
+      );
 }
 
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
 
-        return (
-          <Card>
-            <CardSectionAP>
-              <AudioPlayer
-                audiobook={this.state.selectedAudiobook}
-                audiobooks={this.state.audiobooks}
-                progress={0}
-                playFinishHandlerMS={playFinishHandlerMS}
-              />
-            </CardSectionAP>
-          </Card>
-        );
-    }
+      return (
+        <Card>
+          <CardSectionAP>
+            <AudioPlayer
+              audiobook={this.state.selectedAudiobook}
+              audiobooks={this.state.audiobooks}
+              progress={0}
+              playFinishHandlerMS={playFinishHandlerMS}
+            />
+        </CardSectionAP>
+      </Card>
+    );
+  }
 }
 
   render() {
