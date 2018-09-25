@@ -52,14 +52,12 @@ export default class MediaScreen extends Component {
   }
 
   refreshData() {
-    // this.setState({ transmitToChildren: false });
     axios.get('https://www.belavo.co/api/get/all')
     .then(response => this.setState({
         audiobooks: response.data,
         loading: false
        }))
     .catch(e => console.log(e));
-    // this.setState({ transmitToChildren: true });
   }
 
   choiceHandler(someArg) {

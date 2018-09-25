@@ -31,11 +31,9 @@ export default class AudioPlayer extends React.Component {
         progress: this.props.progress,
         position: 0,
         loadingProgress: false,
-        autoplay: false,
     };
 
     componentDidMount() {
-        this.loadingAutoplayState();
         interval = setInterval(() => {
             if (this.state.loadingProgress === false) {
                 this.setState({
@@ -66,20 +64,11 @@ export default class AudioPlayer extends React.Component {
         clearInterval(interval);
     }
 
-    async loadingAutoplayState() {
-        const autoplayGet = await playerUtils.loadAutoplayStatus();
-        if (autoplayGet === 'true') {
-          this.setState({ autoplay: true });
-        } else {
-          this.setState({ autoplay: false });
-        }
-    }
-
-    playFinishHandlerAP() {
-        // this.loadingAutoplayState(); #Hier muss ein fix gemacht werden
-        if (this.state.autoplay === false) {
+    async playFinishHandlerAP() {
+        const autoplayState = await playerUtils.loadAutoplayStatus();
+        if (autoplayState === false) {
             this.props.playFinishHandlerMS(null);
-        } else if (this.state.autoplay === true && this.state.playlist.length > 0) {
+        } else if (autoplayState === true && this.state.playlist.length > 0) {
             const index = this.state.playlist.indexOf(this.state.audiobook);
             const randomAudiobook = audiobookUtils.getRandomAudiobook(this.state.playlist, index);
             this.setState({ 
@@ -88,7 +77,7 @@ export default class AudioPlayer extends React.Component {
             });
             this.props.playFinishHandlerMS(randomAudiobook[0]);
             playerUtils.startAudioBook(randomAudiobook[0].file_url);
-        } else if (this.state.autoplay === true && this.state.playlist.length === 0) {
+        } else if (autoplayState === true && this.state.playlist.length === 0) {
             this.setState({ audiobook: null });
         }
     }
@@ -160,7 +149,6 @@ export default class AudioPlayer extends React.Component {
     }
 
     render() {
-        console.log(this.state.autoplay);
         return (
             <View style={styles.containerStyle}>
                 {this.renderPlayerContent()}

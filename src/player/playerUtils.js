@@ -30,7 +30,12 @@ const playerUtils = {
         return [progress, position, length];
     },
     async loadAutoplayStatus() {
-        const autoplayStatus = await AsyncStorage.getItem('autoplay');
+        let autoplayStatus = await AsyncStorage.getItem('autoplay');
+        if (autoplayStatus === 'true') {
+            autoplayStatus = true;
+          } else {
+            autoplayStatus = false;
+          }
         return autoplayStatus;
     },
     function5() {

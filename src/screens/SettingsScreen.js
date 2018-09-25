@@ -38,12 +38,10 @@ export default class SettingsScreen extends Component {
     const usernameGet = await AsyncStorage.getItem('name');
     const autoplayGet = await playerUtils.loadAutoplayStatus();
 
-    this.setState({ username: usernameGet });
-    if (autoplayGet === 'true') {
-      this.setState({ autoplay: true });
-    } else {
-      this.setState({ autoplay: false });
-    }
+    this.setState({ 
+      username: usernameGet,
+      autoplay: autoplayGet
+     });
   }
 
   async toggleAutoplayState(value) {
