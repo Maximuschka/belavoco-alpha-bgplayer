@@ -154,7 +154,7 @@ export default class MediaScreen extends Component {
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}
-        <NameModalStartUp />
+        {/* <NameModalStartUp /> */}
       </View>
     );
   }
@@ -162,7 +162,7 @@ export default class MediaScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: Colors.containerColor,
   },
 });
