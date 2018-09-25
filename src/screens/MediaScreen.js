@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
+import NameModalStartUp from '../components/NameModalStartUp';
+
 import { 
   Card, 
   CardSection, 
@@ -159,6 +161,7 @@ export default class MediaScreen extends Component {
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}
+        <NameModalStartUp />
       </View>
     );
   }

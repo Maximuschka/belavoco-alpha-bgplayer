@@ -6,7 +6,6 @@ import {
     Linking
     } from 'react-native';
 import { Button, AlertField } from '../components/common';
-import NameModalStartUp from '../components/NameModalStartUp';
 
 import Colors from '../constants/Colors';
 
@@ -25,7 +24,6 @@ export default class RecorderScreen extends Component {
             onPress={() => Linking.openURL(url)}
           />
         </ScrollView>
-        <NameModalStartUp />
       </View>
     );
   }
