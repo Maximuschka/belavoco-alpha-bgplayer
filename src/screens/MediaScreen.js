@@ -33,6 +33,7 @@ export default class MediaScreen extends Component {
     typeChoice: 'all',
     playerActivity: false,
     selectedAudiobook: null,
+    transmitToChildren: true,
     refreshing: false,
   };
 
@@ -46,8 +47,9 @@ export default class MediaScreen extends Component {
 }
 
   _onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.refreshData();
+    this.setState({ refreshing: true },
+    this.refreshData()
+    );
     this.setState({ refreshing: false });
   }
 
@@ -71,60 +73,51 @@ export default class MediaScreen extends Component {
     });
   }
 
-  playFinishHandlerMS() {
-    this.setState({
-      playerActivity: false
-    });
+  playFinishHandlerMS(audiobook) {
+    if (audiobook === null) {
+      this.setState({
+        playerActivity: false,
+        selectedAudiobook: audiobook,
+      });
+    } else {
+      this.setState({
+        selectedAudiobook: audiobook,
+      });
+    }
   }
 
   renderAudioBookList(selectionHandlerMediaScreen) {
     if (this.state.loading) {
         return <Spinner />;
     }
-
-    return (
-      <AudiobookList
-        audioBookChoice={this.state.typeChoice}
-        audiobooks={this.state.audiobooks}
-        selectionHandlerMediaScreen={selectionHandlerMediaScreen}
-      />
-    );
+      return (
+        <AudiobookList
+          audioBookChoice={this.state.typeChoice}
+          audiobooks={this.state.audiobooks}
+          selectionHandlerMediaScreen={selectionHandlerMediaScreen}
+        />
+      );
 }
 
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
 
-      const {
-        id,
-        author,
-        title,
-        reader,
-        file_url,
-        times_liked,
-        times_played,
-        length
-    } = this.state.selectedAudiobook;
-
-        return (
-          <Card>
-            <CardSectionAP>
-              <AudioPlayer
-                author={author}
-                title={title}
-                audiobookURL={file_url}
-                length={length}
-                progress={0}
-                playFinishHandlerMS={playFinishHandlerMS}
-              />
-            </CardSectionAP>
-          </Card>
-        );
-    }
+      return (
+        <Card>
+          <CardSectionAP>
+            <AudioPlayer
+              audiobook={this.state.selectedAudiobook}
+              audiobooks={this.state.audiobooks}
+              progress={0}
+              playFinishHandlerMS={playFinishHandlerMS}
+            />
+        </CardSectionAP>
+      </Card>
+    );
+  }
 }
 
   render() {
-    if (this.state.selectedAudiobook !== null) {
-    }
     const choiceHandler = this.choiceHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const playFinishHandlerMS = this.playFinishHandlerMS;

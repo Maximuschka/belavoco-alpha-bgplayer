@@ -1,4 +1,5 @@
 import RNAudioStreamer from 'react-native-audio-streamer';
+import { AsyncStorage } from 'react-native';
 
 let length = 0;
 let position = 0;
@@ -28,8 +29,14 @@ const playerUtils = {
         }
         return [progress, position, length];
     },
-    function4() {
-        console.log(4);
+    async loadAutoplayStatus() {
+        let autoplayStatus = await AsyncStorage.getItem('autoplay');
+        if (autoplayStatus === 'true') {
+            autoplayStatus = true;
+          } else {
+            autoplayStatus = false;
+          }
+        return autoplayStatus;
     },
     function5() {
         console.log(5);
