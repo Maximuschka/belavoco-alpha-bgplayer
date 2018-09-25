@@ -76,6 +76,7 @@ export default class AudioPlayer extends React.Component {
     }
 
     playFinishHandlerAP() {
+        // this.loadingAutoplayState(); #Hier muss ein fix gemacht werden
         if (this.state.autoplay === false) {
             this.props.playFinishHandlerMS(null);
         } else if (this.state.autoplay === true && this.state.playlist.length > 0) {
@@ -159,11 +160,12 @@ export default class AudioPlayer extends React.Component {
     }
 
     render() {
-      return (
-        <View style={styles.containerStyle}>
-            {this.renderPlayerContent()}
-        </View>
-      );
+        console.log(this.state.autoplay);
+        return (
+            <View style={styles.containerStyle}>
+                {this.renderPlayerContent()}
+            </View>
+        );
     }
   }
 

@@ -115,7 +115,6 @@ class PlayButton extends Component {
     }
 
     render() {
-        console.log(this.state.playingState);
         const { buttonStyle, iconStyle } = styles;
         const { playingState } = this.state;
 

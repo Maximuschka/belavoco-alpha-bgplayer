@@ -118,8 +118,6 @@ export default class MediaScreen extends Component {
 }
 
   render() {
-    if (this.state.selectedAudiobook !== null) {
-    }
     const choiceHandler = this.choiceHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const playFinishHandlerMS = this.playFinishHandlerMS;
