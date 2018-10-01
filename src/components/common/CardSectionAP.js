@@ -5,13 +5,36 @@ import { View } from 'react-native';
 import Colors from '../../constants/Colors';
 
 // Make a component
-const CardSectionAP = (props) => {
-    return (
-        <View style={styles.containerStyle}>
-            {props.children}
-        </View>
-    );
-};
+// const CardSectionAP = (props) => {
+class CardSectionAP extends React.Component {
+    
+    setPlayerSize() {
+        console.log(this.props.children.props.size);
+        if (this.props.children.props.size === 'fullscreen') {
+        return {
+            padding: 5,
+            height: '100%',
+            backgroundColor: Colors.audioPlayer,
+            alignSelf: 'stretch'
+            };
+        }
+        return {
+            padding: 5,
+            height: 80,
+            backgroundColor: Colors.audioPlayer,
+            alignSelf: 'stretch'
+        };
+    }
+
+    render() {
+        return (
+            // <View style={styles.containerStyle}>
+            <View style={this.setPlayerSize()}>
+                {this.props.children}
+            </View>
+        );
+    }
+}
 
 const styles = {
     containerStyle: {

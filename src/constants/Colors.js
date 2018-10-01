@@ -12,4 +12,5 @@ export default {
   noticeBackground: tintColor,
   noticeText: '#fff',
   containerColor: '#e6ecf7',
+  audioPlayer: '#92e8a9',
 };
