@@ -4,7 +4,8 @@ import {
   ScrollView, 
   StyleSheet, 
   RefreshControl, 
-  AsyncStorage } from 'react-native';
+  AsyncStorage,
+  TouchableOpacity } from 'react-native';
 
 import axios from 'axios';
 
@@ -44,6 +45,7 @@ export default class MediaScreen extends Component {
     audiobooks: [],
     typeChoice: 'all',
     playerActivity: false,
+    playerFullScreen: false,
     selectedAudiobook: null,
     transmitToChildren: true,
     refreshing: false,
@@ -112,6 +114,57 @@ export default class MediaScreen extends Component {
     }
   }
 
+  onPlayerPress = () => {
+    console.log('HIER');
+    this.setState({ playerFullScreen: true });
+  }
+
+  renderScreen() {
+    const choiceHandler = this.choiceHandler;
+    const initialUserhashHandler = this.initialUserhashHandler;
+    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
+    const playFinishHandlerMS = this.playFinishHandlerMS;
+      return (
+        <View style={styles.container}>
+          {/* TODO: only load EmailPromptProv when email empty using userdata state */}
+          <EmailPromptProv 
+            initialUserhashHandler={initialUserhashHandler.bind(this)} 
+          />
+          <Card>
+            <CardSection>
+              <ButtonSmall
+                buttonText={'Alles'}
+                buttonState={'all'}
+                choiceHandler={choiceHandler.bind(this)}
+              />
+              <ButtonSmall
+                buttonText={'Prosa'}
+                buttonState={'prose'}
+                choiceHandler={choiceHandler.bind(this)}
+              />
+              <ButtonSmall
+                buttonText={'Lyrik'}
+                buttonState={'poetry'}
+                choiceHandler={choiceHandler.bind(this)}
+              />
+            </CardSection>
+          </Card>
+
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
+              />
+            }
+          >
+            {this.renderAudioBookList(selectionHandlerMediaScreen)}
+          </ScrollView>
+          {this.renderPlayer(playFinishHandlerMS)}
+        </View>
+      );
+  }
+
   renderAudioBookList(selectionHandlerMediaScreen) {
     if (this.state.loading) {
         return <Spinner />;
@@ -123,68 +176,33 @@ export default class MediaScreen extends Component {
           selectionHandlerMediaScreen={selectionHandlerMediaScreen}
         />
       );
-}
+  }
 
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
       return (
         <Card>
-          <CardSectionAP>
-            <AudioPlayer
-              audiobook={this.state.selectedAudiobook}
-              audiobooks={this.state.audiobooks}
-              progress={0}
-              playFinishHandlerMS={playFinishHandlerMS}
-            />
-        </CardSectionAP>
+          <TouchableOpacity onPress={this.onPlayerPress}>
+            <CardSectionAP>
+              <AudioPlayer
+                audiobook={this.state.selectedAudiobook}
+                audiobooks={this.state.audiobooks}
+                progress={0}
+                playFinishHandlerMS={playFinishHandlerMS}
+              />
+            </CardSectionAP>
+          </TouchableOpacity>
       </Card>
-    );
+      );
+    }
   }
-}
 
   render() {
     // console.log(this.state);
-    const choiceHandler = this.choiceHandler;
-    const initialUserhashHandler = this.initialUserhashHandler;
-    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
-    const playFinishHandlerMS = this.playFinishHandlerMS;
+    console.log(this.state.playerFullScreen);
     return (
       <View style={styles.container}>
-      {/* TODO: only load EmailPromptProv when email empty using userdata state */}
-        <EmailPromptProv 
-          initialUserhashHandler={initialUserhashHandler.bind(this)}
-        />
-        <Card>
-          <CardSection>
-            <ButtonSmall
-              buttonText={'Alles'}
-              buttonState={'all'}
-              choiceHandler={choiceHandler.bind(this)}
-            />
-            <ButtonSmall
-              buttonText={'Prosa'}
-              buttonState={'prose'}
-              choiceHandler={choiceHandler.bind(this)}
-            />
-            <ButtonSmall
-              buttonText={'Lyrik'}
-              buttonState={'poetry'}
-              choiceHandler={choiceHandler.bind(this)}
-            />
-          </CardSection>
-        </Card>
-
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }
-        >
-          {this.renderAudioBookList(selectionHandlerMediaScreen)}
-        </ScrollView>
-        {this.renderPlayer(playFinishHandlerMS)}
+        {this.renderScreen()}
       </View>
     );
   }
