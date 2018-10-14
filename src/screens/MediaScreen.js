@@ -36,6 +36,7 @@ export default class MediaScreen extends Component {
     super(props);
     this.choiceHandler.bind(this);
     this.initialUserhashHandler.bind(this);
+    this.minimizePlayerHandler.bind(this);
     this.selectionHandlerMediaScreen = this.selectionHandlerMediaScreen.bind(this);
     this.playFinishHandlerMS = this.playFinishHandlerMS.bind(this);
   }
@@ -83,6 +84,10 @@ export default class MediaScreen extends Component {
     .catch(e => console.log(e));
   }
 
+  togglePlayerSize() {
+    this.setState({ playerFullScreen: !this.state.playerFullScreen });
+  }
+
   choiceHandler(someArg) {
     this.setState({ typeChoice: someArg });
   }
@@ -92,6 +97,10 @@ export default class MediaScreen extends Component {
       { userhash: someArg }, () => { 
         this.refreshData();
     });
+  }
+
+  minimizePlayerHandler() {
+    this.togglePlayerSize();
   }
 
   selectionHandlerMediaScreen(audiobookToPlay) {
@@ -115,8 +124,7 @@ export default class MediaScreen extends Component {
   }
 
   onPlayerPress = () => {
-    console.log('HIER');
-    this.setState({ playerFullScreen: true });
+    this.togglePlayerSize();
   }
 
   renderScreen() {
@@ -124,6 +132,7 @@ export default class MediaScreen extends Component {
     const initialUserhashHandler = this.initialUserhashHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const playFinishHandlerMS = this.playFinishHandlerMS;
+    const minimizePlayerHandler = this.minimizePlayerHandler;
       return (
         <View style={styles.container}>
           {/* TODO: only load EmailPromptProv when email empty using userdata state */}
@@ -160,7 +169,7 @@ export default class MediaScreen extends Component {
           >
             {this.renderAudioBookList(selectionHandlerMediaScreen)}
           </ScrollView>
-          {this.renderPlayer(playFinishHandlerMS)}
+          {this.renderPlayer(playFinishHandlerMS, minimizePlayerHandler)}
         </View>
       );
   }
@@ -178,7 +187,7 @@ export default class MediaScreen extends Component {
       );
   }
 
-  renderPlayer(playFinishHandlerMS) {
+  renderPlayer(playFinishHandlerMS, minimizePlayerHandler) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
       return (
         <Card>
@@ -188,7 +197,9 @@ export default class MediaScreen extends Component {
                 audiobook={this.state.selectedAudiobook}
                 audiobooks={this.state.audiobooks}
                 progress={0}
+                minimizePlayerHandler={minimizePlayerHandler.bind(this)}
                 playFinishHandlerMS={playFinishHandlerMS}
+                fullscreen={this.state.playerFullScreen}
               />
             </CardSectionAP>
           </TouchableOpacity>
@@ -198,8 +209,7 @@ export default class MediaScreen extends Component {
   }
 
   render() {
-    // console.log(this.state);
-    console.log(this.state.playerFullScreen);
+    console.log('MS: ' + this.state.playerFullScreen);
     return (
       <View style={styles.container}>
         {this.renderScreen()}
