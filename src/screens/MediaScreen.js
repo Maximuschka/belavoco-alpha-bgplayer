@@ -29,6 +29,7 @@ export default class MediaScreen extends Component {
   constructor(props) {
     super(props);
     this.choiceHandler.bind(this);
+    this.minimizePlayerHandler.bind(this);
     this.selectionHandlerMediaScreen = this.selectionHandlerMediaScreen.bind(this);
     this.playFinishHandlerMS = this.playFinishHandlerMS.bind(this);
   }
@@ -69,8 +70,16 @@ export default class MediaScreen extends Component {
     .catch(e => console.log(e));
   }
 
+  togglePlayerSize() {
+    this.setState({ playerFullScreen: !this.state.playerFullScreen });
+  }
+
   choiceHandler(someArg) {
     this.setState({ typeChoice: someArg });
+  }
+
+  minimizePlayerHandler() {
+    this.togglePlayerSize();
   }
 
   selectionHandlerMediaScreen(audiobookToPlay) {
@@ -94,12 +103,12 @@ export default class MediaScreen extends Component {
   }
 
   onPlayerPress = () => {
-    console.log('HIER');
-    this.setState({ playerFullScreen: true });
+    this.togglePlayerSize();
   }
 
   renderScreen() {
     const choiceHandler = this.choiceHandler;
+    const minimizePlayerHandler = this.minimizePlayerHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const playFinishHandlerMS = this.playFinishHandlerMS;
     if (this.state.playerFullScreen) {
@@ -110,8 +119,9 @@ export default class MediaScreen extends Component {
               audiobook={this.state.selectedAudiobook}
               audiobooks={this.state.audiobooks}
               progress={0}
+              minimizePlayerHandler={minimizePlayerHandler.bind(this)}
               playFinishHandlerMS={playFinishHandlerMS}
-              size='fullscreen'
+              fullscreen={this.state.playerFullScreen}
             />
         </CardSectionAP>
       </Card>
@@ -149,7 +159,7 @@ export default class MediaScreen extends Component {
           >
             {this.renderAudioBookList(selectionHandlerMediaScreen)}
           </ScrollView>
-          {this.renderPlayer(playFinishHandlerMS)}
+          {this.renderPlayer(playFinishHandlerMS, minimizePlayerHandler)}
           {/* <NameModalStartUp /> */}
         </View>
       );
@@ -168,7 +178,7 @@ export default class MediaScreen extends Component {
       );
 }
 
-  renderPlayer(playFinishHandlerMS) {
+  renderPlayer(playFinishHandlerMS, minimizePlayerHandler) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
       return (
         <Card>
@@ -178,7 +188,9 @@ export default class MediaScreen extends Component {
                 audiobook={this.state.selectedAudiobook}
                 audiobooks={this.state.audiobooks}
                 progress={0}
+                minimizePlayerHandler={minimizePlayerHandler.bind(this)}
                 playFinishHandlerMS={playFinishHandlerMS}
+                fullscreen={this.state.playerFullScreen}
               />
             </CardSectionAP>
           </TouchableOpacity>
@@ -188,8 +200,7 @@ export default class MediaScreen extends Component {
 }
 
   render() {
-    console.log(this.state.playerFullScreen);
-
+    console.log('MS: ' + this.state.playerFullScreen);
     // const choiceHandler = this.choiceHandler;
     // const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     // const playFinishHandlerMS = this.playFinishHandlerMS;

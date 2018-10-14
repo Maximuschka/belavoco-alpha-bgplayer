@@ -9,8 +9,9 @@ import Colors from '../../constants/Colors';
 class CardSectionAP extends React.Component {
     
     setPlayerSize() {
-        console.log(this.props.children.props.size);
-        if (this.props.children.props.size === 'fullscreen') {
+        // console.log(this.props);
+        // console.log('inCSAP: ' + this.props.children.props.fullscreen);
+        if (this.props.children.props.fullscreen === true) {
         return {
             padding: 5,
             height: '100%',
