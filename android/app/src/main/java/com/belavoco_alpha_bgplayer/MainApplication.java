@@ -3,6 +3,8 @@ package com.belavoco_alpha_bgplayer;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+// import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import fm.indiecast.rnaudiostreamer.RNAudioStreamerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -25,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeOneSignalPackage(),
             new RNAudioStreamerPackage(),
             new VectorIconsPackage()
       );

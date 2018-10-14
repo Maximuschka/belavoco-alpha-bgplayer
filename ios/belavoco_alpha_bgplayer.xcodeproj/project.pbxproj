@@ -53,6 +53,7 @@
 		F7F25E4774204555B59F7552 /* libRNAudioStreamer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7F8AE53BEDD409B9DF3251B /* libRNAudioStreamer.a */; };
 		FF30793B91DA486E93649ACC /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A2D42EDB9BDA4148B19CDF2E /* SimpleLineIcons.ttf */; };
 		FF4100AA213ECE3400F09AC0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		FF865A6C215F87D700E0C7F5 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF865A6B215F86EE00E0C7F5 /* libRCTOneSignal.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -336,6 +337,13 @@
 			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		FF865A6A215F86EE00E0C7F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF865A66215F86EE00E0C7F5 /* RCTOneSignal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTOneSignal;
+		};
 		FF94F526213C094100B0EAF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 68956D61034C41C19F8803AD /* RNAudioStreamer.xcodeproj */;
@@ -397,6 +405,8 @@
 		DC56A8D4053543A388FC7566 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		DD361FF1671A4254985BDA93 /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 		FC591B9ADB9D4B7195B2E469 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
+		FF0AB2FA215FAFD900A168C4 /* belavoco_alpha_bgplayer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = belavoco_alpha_bgplayer.entitlements; path = belavoco_alpha_bgplayer/belavoco_alpha_bgplayer.entitlements; sourceTree = "<group>"; };
+		FF865A66215F86EE00E0C7F5 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +422,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF865A6C215F87D700E0C7F5 /* libRCTOneSignal.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -538,6 +549,7 @@
 		13B07FAE1A68108700A75B9A /* belavoco_alpha_bgplayer */ = {
 			isa = PBXGroup;
 			children = (
+				FF0AB2FA215FAFD900A168C4 /* belavoco_alpha_bgplayer.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -601,6 +613,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FF865A66215F86EE00E0C7F5 /* RCTOneSignal.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -683,6 +696,14 @@
 				0CD43ACBF3EF4818A91DBD74 /* Zocial.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		FF865A67215F86EE00E0C7F5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FF865A6B215F86EE00E0C7F5 /* libRCTOneSignal.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		FF94F4FB213C093D00B0EAF3 /* Recovered References */ = {
@@ -806,6 +827,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -858,6 +882,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = FF865A67215F86EE00E0C7F5 /* Products */;
+					ProjectRef = FF865A66215F86EE00E0C7F5 /* RCTOneSignal.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1158,6 +1186,13 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		FF865A6B215F86EE00E0C7F5 /* libRCTOneSignal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTOneSignal.a;
+			remoteRef = FF865A6A215F86EE00E0C7F5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FF94F527213C094100B0EAF3 /* libRNAudioStreamer.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1383,13 +1418,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = belavoco_alpha_bgplayer/belavoco_alpha_bgplayer.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 2JQN7586SR;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
-					"$(SRCROOT)..\node_modules\neact-native-audio-streameriosRNAudioStreamer/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-audio-streameriosRNAudioStreamer/**",
 				);
 				INFOPLIST_FILE = belavoco_alpha_bgplayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1409,12 +1449,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = belavoco_alpha_bgplayer/belavoco_alpha_bgplayer.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2JQN7586SR;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)..\node_modules\neact-native-vector-iconsRNVectorIconsManager",
-					"$(SRCROOT)..\node_modules\neact-native-audio-streameriosRNAudioStreamer/**",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-vector-iconsRNVectorIconsManager",
+					"$(SRCROOT)..",
+					ode_modules,
+					"eact-native-audio-streameriosRNAudioStreamer/**",
 				);
 				INFOPLIST_FILE = belavoco_alpha_bgplayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

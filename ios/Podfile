@@ -27,4 +27,7 @@ target 'belavoco_alpha_bgplayer' do
 # when not using frameworks  we can do this instead of including the source files in our project (1/4):
 #  pod 'react-native-maps', path: '../../'
 #  pod 'react-native-google-maps', path: '../../'  # <~~ if you need GoogleMaps support on iOS
+
+  pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
+
 end
