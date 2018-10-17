@@ -8,3 +8,4 @@ export * from './Spinner';
 export * from './InfoIcon';
 export * from './LikeButton';
 export * from './ProgressDisplay';
+export * from './EmailPromptProv';

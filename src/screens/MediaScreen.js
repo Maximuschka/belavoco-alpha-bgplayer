@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import { 
+  View, 
+  ScrollView, 
+  StyleSheet, 
+  RefreshControl, 
+  AsyncStorage } from 'react-native';
+
 import axios from 'axios';
 
 import AudiobookList from '../components/AudiobookList';
 import AudioPlayer from '../components/AudioPlayer';
-import NameModalStartUp from '../components/NameModalStartUp';
 
 import { 
   Card, 
   CardSection, 
   CardSectionAP, 
   ButtonSmall,
-  Spinner } from '../components/common';
+  Spinner,
+  EmailPromptProv } from '../components/common';
 
+import settings from '../../settings';
 import Colors from '../constants/Colors';
+import apiUtils from '../api/apiUtils';
+import utils from '../utils/utils';
+
+const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
 
 export default class MediaScreen extends Component {
   static navigationOptions = {
@@ -23,6 +34,7 @@ export default class MediaScreen extends Component {
   constructor(props) {
     super(props);
     this.choiceHandler.bind(this);
+    this.initialUserhashHandler.bind(this);
     this.selectionHandlerMediaScreen = this.selectionHandlerMediaScreen.bind(this);
     this.playFinishHandlerMS = this.playFinishHandlerMS.bind(this);
   }
@@ -35,16 +47,21 @@ export default class MediaScreen extends Component {
     selectedAudiobook: null,
     transmitToChildren: true,
     refreshing: false,
+    userhash: 'XXXX',
   };
 
   componentWillMount() {
-    axios.get('https://www.belavo.co/api/get/all')
-    .then(response => this.setState({
-        audiobooks: response.data,
-        loading: false
-       }))
-    .catch(e => console.log(e));
-}
+  this.loadingAsyncAndRefresh();
+    }
+
+  // TODO: userdata as state instead of only hash
+  async loadingAsyncAndRefresh() {
+    const userhashGet = await utils.getUserParameter('hash');
+    
+    this.setState({ userhash: userhashGet }, () => { 
+          this.refreshData();
+        });
+  }
 
   _onRefresh = () => {
     this.setState({ refreshing: true },
@@ -54,7 +71,9 @@ export default class MediaScreen extends Component {
   }
 
   refreshData() {
-    axios.get('https://www.belavo.co/api/get/all')
+    axios.get(API_ENDPOINT_ALL, { 
+      headers: apiUtils.getRequestHeader(this.state.userhash)
+    })
     .then(response => this.setState({
         audiobooks: response.data,
         loading: false
@@ -64,6 +83,13 @@ export default class MediaScreen extends Component {
 
   choiceHandler(someArg) {
     this.setState({ typeChoice: someArg });
+  }
+
+  initialUserhashHandler(someArg) {
+    this.setState(
+      { userhash: someArg }, () => { 
+        this.refreshData();
+    });
   }
 
   selectionHandlerMediaScreen(audiobookToPlay) {
@@ -101,7 +127,6 @@ export default class MediaScreen extends Component {
 
   renderPlayer(playFinishHandlerMS) {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
-
       return (
         <Card>
           <CardSectionAP>
@@ -118,11 +143,17 @@ export default class MediaScreen extends Component {
 }
 
   render() {
+    // console.log(this.state);
     const choiceHandler = this.choiceHandler;
+    const initialUserhashHandler = this.initialUserhashHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
     const playFinishHandlerMS = this.playFinishHandlerMS;
     return (
       <View style={styles.container}>
+      {/* TODO: only load EmailPromptProv when email empty using userdata state */}
+        <EmailPromptProv 
+          initialUserhashHandler={initialUserhashHandler.bind(this)}
+        />
         <Card>
           <CardSection>
             <ButtonSmall
@@ -154,7 +185,6 @@ export default class MediaScreen extends Component {
           {this.renderAudioBookList(selectionHandlerMediaScreen)}
         </ScrollView>
         {this.renderPlayer(playFinishHandlerMS)}
-        {/* <NameModalStartUp /> */}
       </View>
     );
   }

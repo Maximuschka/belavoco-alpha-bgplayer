@@ -1,34 +1,53 @@
 import axios from 'axios';
 
-let randomAudiobook;
+import settings from '../../settings';
+import utils from '../utils/utils';
+
+const API_ENDPOINT_LIKE = settings.getBackendHost().concat('/api/set/');
+const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
+//TODO: Beeceptor configuration in settings.js
+//For Testing:
+// const API_ENDPOINT_UPDATE_USER = 'https://belavoco.free.beeceptor.com';
 
 const apiUtils = {
-    addLike(hash) {
-        axios.get('https://www.belavo.co/api/set/' + hash + '/like')
-        .catch(e => console.log(e));
+    async addLike(hash) {
+        const userhash = await utils.getUserParameter('hash');
+        this.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/like'), userhash);
     },
-    substractLike(hash) {
-        axios.get('https://www.belavo.co/api/set/' + hash + '/unlike')
-        .catch(e => console.log(e));
+    async substractLike(hash) {
+        const userhash = await utils.getUserParameter('hash');
+        this.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/unlike'), userhash);
     },
-    loadRandomAudiobook() {
-        axios.get('https://www.belavo.co/api/get/all')
-        .then((response) => {
-            randomAudiobook = response.data;
-            console.log('name is ', randomAudiobook);
-            return randomAudiobook;
+    //TODO: Rebuild with axios
+    transmitUserHash(endpoint, userhash) {
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Authorization': userhash,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                user: {
+                    user_hash: userhash,
+                },
+            })
         });
     },
-    function4() {
-        console.log(4);
+    updateUserData(userdata) {
+        const data = { user: userdata };
+        axios.put(API_ENDPOINT_UPDATE_USER, data, { 
+            headers: this.getRequestHeader(userdata.userhash),
+        })
+        .catch(e => console.log(e));
     },
-    function5() {
-        console.log(5);
+    getRequestHeader(userhash) {
+        const myheaders = {
+            'Authorization': userhash,
+          };
+        return (myheaders);
     },
-    function6() {
-        console.log(6);
-    },
-    function7() {
+    function9() {
         console.log(7);
     },
 };

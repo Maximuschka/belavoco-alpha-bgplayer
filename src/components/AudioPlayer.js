@@ -11,7 +11,7 @@ import {
     ProgressDisplay } from './common';
 
 import playerUtils from '../player/playerUtils';
-import audiobookUtils from '../utils/audiobookUtils';
+import audiobookUtils from '../audiobook/audiobookUtils';
 
 import Colors from '../constants/Colors';
 

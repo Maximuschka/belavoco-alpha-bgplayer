@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import { View, 
   Text, 
@@ -9,10 +8,17 @@ import NameInput from '../components/NameInput';
 import { 
   Card, 
   CardSection,
+  Button
   } from '../components/common';
 
 import playerUtils from '../player/playerUtils';
+import utils from '../utils/utils';
+import apiUtils from '../api/apiUtils';
+import settings from '../../settings';
+
 import Colors from '../constants/Colors';
+
+const DEBUG_STATE = settings.getDebugState();
 
 export default class SettingsScreen extends Component {
   static navigationOptions = {
@@ -21,13 +27,15 @@ export default class SettingsScreen extends Component {
   
   constructor(props) {
     super(props);
-    this.handleToUpdate.bind(this);
+    this.updateUsername.bind(this);
+    this.updateUserEmail.bind(this);
   }
 
   state = { 
     loading: true,
-    username: '',
+    userData: '',
     autoplay: false,
+    debug: DEBUG_STATE,
   };
 
   componentWillMount() {
@@ -35,11 +43,11 @@ export default class SettingsScreen extends Component {
   }
 
   async loadingAsync() {
-    const usernameGet = await AsyncStorage.getItem('name');
+    const userdataGet = await utils.getUserParameter('all');
     const autoplayGet = await playerUtils.loadAutoplayStatus();
 
     this.setState({ 
-      username: usernameGet,
+      userData: userdataGet,
       autoplay: autoplayGet
      });
   }
@@ -49,26 +57,63 @@ export default class SettingsScreen extends Component {
     await AsyncStorage.setItem('autoplay', JSON.stringify(value));
   }
 
-  handleToUpdate(someArg) {
-    this.setState({ username: someArg });
+  async updateUsername(someArg) {
+    const userdataGet = await utils.updateUserJSON('name', someArg);
+    this.setState({ userData: userdataGet });
+    apiUtils.updateUserData(userdataGet);
+  }
+
+  async updateUserEmail(someArg) {
+    const userdataGet = await utils.updateUserJSON('email', someArg);
+    this.setState({ userData: userdataGet });
+  }
+
+  renderDebugFeature() {
+    if (this.state.debug === true) {
+      return (
+        <Card>
+          <CardSection>
+            <Button
+              buttonText={'Logout'}
+              onPress={() => utils.logoutUserInDebug()}
+            />
+          </CardSection>
+        </Card>
+      );
+    }
   }
 
   render() {
+    // console.log(this.state);
     const { container, buttonContainer, infoContainer, titleStyle } = styles;
-    const handleToUpdate = this.handleToUpdate;
+    const updateUsername = this.updateUsername;
+    // const updateUserEmail = this.updateUserEmail;
     return (
       <View style={container}>
         <Card>
           <CardSection>
             <View style={infoContainer}>
-              <Text style={titleStyle}>{'User name: ' + this.state.username}</Text>
+              <Text style={titleStyle}>{'Name: ' + this.state.userData.username}</Text>
             </View>
             <View style={buttonContainer}>
               <NameInput 
                 buttonText={'Change'}
-                handleToUpdate={handleToUpdate.bind(this)}
+                handleToUpdate={updateUsername.bind(this)}
               />
             </View>
+          </CardSection>
+        </Card>
+        <Card>
+          <CardSection>
+            <View style={infoContainer}>
+              <Text style={titleStyle}>{'E-mail: ' + this.state.userData.useremail}</Text>
+            </View>
+            {/* <View style={buttonContainer}>
+              <NameInput 
+                buttonText={'Change'}
+                handleToUpdate={updateUserEmail.bind(this)}
+              />
+            </View> */}
           </CardSection>
         </Card>
         <Card>
@@ -84,6 +129,7 @@ export default class SettingsScreen extends Component {
             </View>
           </CardSection>
         </Card>
+        {this.renderDebugFeature()}
       </View>
     );
   }

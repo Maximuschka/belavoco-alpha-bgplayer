@@ -58,7 +58,7 @@ class NameInput extends Component {
                 style={inputBox}
                 placeholder='Your name'
                 label='Username'
-                value={this.state.name}
+                // value={this.state.name}
                 onChangeText={text => {
                     AsyncStorage.setItem('name', text); 
                     this.setState({ name: text });

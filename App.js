@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
+
 import OneSignal from 'react-native-onesignal';
 
 import AppNavigator from './src/navigation/AppNavigator';
@@ -6,12 +8,19 @@ import settings from './settings';
 
 export default class App extends Component {
 
+  state = {
+    promptValue: '',
+    visiblePrompt: true,
+  };
+
   componentWillMount() {
     OneSignal.init(settings.getOneSignalKey());
 
     OneSignal.addEventListener('received', this.onReceived);
     OneSignal.addEventListener('opened', this.onOpened);
     OneSignal.addEventListener('ids', this.onIds);
+
+    OneSignal.configure();
   }
 
   componentWillUnmount() {
@@ -33,6 +42,7 @@ export default class App extends Component {
 
   onIds(device) {
     console.log('Device info: ', device);
+    AsyncStorage.setItem('onesignalplayid', device.userId);
   }
 
   render() {
