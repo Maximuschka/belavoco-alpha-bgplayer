@@ -56,4 +56,4 @@ buck-out/
 *.jsbundle
 
 # Settings
-settings.js
+environ.js
