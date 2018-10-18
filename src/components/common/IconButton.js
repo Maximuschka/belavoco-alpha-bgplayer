@@ -8,8 +8,10 @@ import { Icon } from 'react-native-elements';
 const IconButton = (props) => {
     return (
             
-        <TouchableOpacity onPress={props.onPress}>
-        {/* <TouchableOpacity onPress={() => this.onPress}> */}
+        <TouchableOpacity 
+            onPress={props.onPress}
+            style={styles.buttonStyle}
+        >
             <Icon
                 name={
                     Platform.OS === 'ios'
@@ -25,10 +27,12 @@ const IconButton = (props) => {
     );
 };
 
-// const styles = {
-//     containerStyle: {
-//     },
-// };
+const styles = {
+    buttonStyle: {
+        marginRight: 8,
+        marginLeft: 8,
+    },
+};
 
 
 // Make the compoent available to other parts of the app

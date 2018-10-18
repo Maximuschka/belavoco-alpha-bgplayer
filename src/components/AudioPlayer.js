@@ -68,6 +68,8 @@ export default class AudioPlayer extends React.Component {
     }
 
     async playFinishHandlerAP() {
+        //TODO: make following code in a function randomPlay().
+        //TODO: AND, make a fucntion sequentialPlay() --> playing audiobook after audiobook
         const autoplayState = await playerUtils.loadAutoplayStatus();
         if (autoplayState === false) {
             this.props.playFinishHandlerMS(null);
@@ -156,35 +158,57 @@ export default class AudioPlayer extends React.Component {
             infoContainer,
             authorStyle,
             titleStyle,
+            upButton,
         } = styles;
-
-        // const { 
-        //     infoContainerStyle, 
-        //     progressContainerStyle, 
-        //     buttonContainer 
-        // } = this.alignPlayerContent();
 
         if (this.state.fullscreen) {
             return (
-                <View>
-                    <PlayButton
-                        playingState={'PLAYING'}
-                        playFinishHandlerAP={playFinishHandlerAP}
-                    />
-                    <IconButton 
-                        onPress={this.minimizePlayer.bind(this)}
-                        name='arrow-round-down'
-                        size={45}
-                        type='ionicon'
-                        color='red'
-                    />
+                <View style={stylesLargeAP.containerStyle}>
+                    <View style={stylesLargeAP.downButton}>
+                        <IconButton 
+                            onPress={this.minimizePlayer.bind(this)}
+                            name='arrow-round-down'
+                            size={20}
+                            type='ionicon'
+                            color='red'
+                        />
+                    </View>
+                    <View style={stylesLargeAP.movedPlayerStyle}>
+                        <View style={infoContainerStyle}>
+                            <View style={buttonContainer}>
+                                <PlayButton
+                                    playingState={'PLAYING'}
+                                    playFinishHandlerAP={playFinishHandlerAP}
+                                />
+                            </View>
+                            <View style={infoContainer}>
+                                <Text style={authorStyle}>{this.state.audiobook.author}</Text>
+                                <Text style={titleStyle}>{this.state.audiobook.title}</Text>
+                            </View>
+                        </View>
+                        <View style={progressContainerStyle}>
+                            <View style={progressBarStyle}>
+                                <Progress.Bar
+                                    progress={this.state.progress}
+                                    width={null}
+                                    color='grey'
+                                    animated={false}
+                                />
+                            </View>
+                            <View style={progressDisplayStyle}>
+                                <ProgressDisplay
+                                    position={this.state.position}
+                                    length={this.state.audiobook.length}
+                                />
+                            </View>
+                        </View>
+                    </View>
                 </View>
             );
         } else if (this.state.fullscreen === false) {
             if (this.state.audiobook !== null) {
                     return (
                         <View style={containerStyle}>
-                            {/* <View style={infoContainerStyle}> */}
                             <View style={infoContainerStyle}>
                                 <View style={buttonContainer}>
                                     <PlayButton
@@ -195,6 +219,15 @@ export default class AudioPlayer extends React.Component {
                                 <View style={infoContainer}>
                                     <Text style={authorStyle}>{this.state.audiobook.author}</Text>
                                     <Text style={titleStyle}>{this.state.audiobook.title}</Text>
+                                </View>
+                                <View style={upButton}>
+                                    <IconButton 
+                                        onPress={this.minimizePlayer.bind(this)}
+                                        name='arrow-round-up'
+                                        size={20}
+                                        type='ionicon'
+                                        color='red'
+                                    />
                                 </View>
                             </View>
                             <View style={progressContainerStyle}>
@@ -274,6 +307,9 @@ const styles = {
         width: 50,
         flex: 1,
     },
+    upButton: {
+        alignItems: 'flex-end',
+    },
     infoContainer: {
         justifyContent: 'space-around',
         flexDirection: 'column',
@@ -288,5 +324,19 @@ const styles = {
         fontSize: 17,
         // marginLeft: 8,
         // flex: 1,
+    },
+};
+const stylesLargeAP = {
+    containerStyle: {
+        flex: 1,
+    },
+    movedPlayerStyle: {
+        // paddingTop: 5,
+        height: 80, 
+    },
+    downButton: {
+        // flex: 1,
+        alignItems: 'flex-end',
+        // justifyContent: 'flex-end',
     },
 };

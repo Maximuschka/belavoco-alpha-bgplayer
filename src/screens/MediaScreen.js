@@ -123,23 +123,10 @@ export default class MediaScreen extends Component {
     }
   }
 
-  onPlayerPress = () => {
-    this.togglePlayerSize();
-  }
-
-  renderScreen() {
-    const choiceHandler = this.choiceHandler;
-    const initialUserhashHandler = this.initialUserhashHandler;
-    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
-    const playFinishHandlerMS = this.playFinishHandlerMS;
-    const minimizePlayerHandler = this.minimizePlayerHandler;
+  renderChoiceButtons(choiceHandler) {
+    if (this.state.playerFullScreen === false) {
       return (
-        <View style={styles.container}>
-          {/* TODO: only load EmailPromptProv when email empty using userdata state */}
-          <EmailPromptProv 
-            initialUserhashHandler={initialUserhashHandler.bind(this)} 
-          />
-          <Card>
+        <Card>
             <CardSection>
               <ButtonSmall
                 buttonText={'Alles'}
@@ -158,20 +145,8 @@ export default class MediaScreen extends Component {
               />
             </CardSection>
           </Card>
-
-          <ScrollView
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh}
-              />
-            }
-          >
-            {this.renderAudioBookList(selectionHandlerMediaScreen)}
-          </ScrollView>
-          {this.renderPlayer(playFinishHandlerMS, minimizePlayerHandler)}
-        </View>
       );
+    }
   }
 
   renderAudioBookList(selectionHandlerMediaScreen) {
@@ -191,18 +166,16 @@ export default class MediaScreen extends Component {
     if (this.state.playerActivity === true && this.state.selectedAudiobook !== null) {
       return (
         <Card>
-          <TouchableOpacity onPress={this.onPlayerPress}>
-            <CardSectionAP>
-              <AudioPlayer
-                audiobook={this.state.selectedAudiobook}
-                audiobooks={this.state.audiobooks}
-                progress={0}
-                minimizePlayerHandler={minimizePlayerHandler.bind(this)}
-                playFinishHandlerMS={playFinishHandlerMS}
-                fullscreen={this.state.playerFullScreen}
-              />
-            </CardSectionAP>
-          </TouchableOpacity>
+          <CardSectionAP>
+            <AudioPlayer
+              audiobook={this.state.selectedAudiobook}
+              audiobooks={this.state.audiobooks}
+              progress={0}
+              minimizePlayerHandler={minimizePlayerHandler.bind(this)}
+              playFinishHandlerMS={playFinishHandlerMS}
+              fullscreen={this.state.playerFullScreen}
+            />
+          </CardSectionAP>
       </Card>
       );
     }
@@ -210,13 +183,35 @@ export default class MediaScreen extends Component {
 
   render() {
     console.log('MS: ' + this.state.playerFullScreen);
+
+    const choiceHandler = this.choiceHandler;
+    const initialUserhashHandler = this.initialUserhashHandler;
+    const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;
+    const playFinishHandlerMS = this.playFinishHandlerMS;
+    const minimizePlayerHandler = this.minimizePlayerHandler;
+
     return (
       <View style={styles.container}>
-        {this.renderScreen()}
+        {/* TODO: only load EmailPromptProv when email empty using userdata state */}
+        <EmailPromptProv 
+          initialUserhashHandler={initialUserhashHandler.bind(this)} 
+        />
+        {this.renderChoiceButtons(choiceHandler)}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
+          {this.renderAudioBookList(selectionHandlerMediaScreen)}
+        </ScrollView>
+        {this.renderPlayer(playFinishHandlerMS, minimizePlayerHandler)}
       </View>
-    );
+      );
+    }
   }
-}
 
 const styles = StyleSheet.create({
   container: {
