@@ -271,7 +271,6 @@ export default class AudioPlayer extends React.Component {
     }
 
     render() {
-        console.log('AP: ' + this.state.fullscreen);
         return (
             <View style={styles.containerStyle}>
                 {this.renderPlayerContent()}

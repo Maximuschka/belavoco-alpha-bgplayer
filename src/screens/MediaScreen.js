@@ -183,8 +183,6 @@ export default class MediaScreen extends Component {
   }
 
   render() {
-    console.log('MS: ' + this.state.playerFullScreen);
-
     const choiceHandler = this.choiceHandler;
     const initialUserhashHandler = this.initialUserhashHandler;
     const selectionHandlerMediaScreen = this.selectionHandlerMediaScreen;

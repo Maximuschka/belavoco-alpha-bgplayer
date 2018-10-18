@@ -7,6 +7,7 @@ export * from './ButtonSmall';
 export * from './Spinner';
 export * from './InfoIcon';
 export * from './LikeButton';
+export * from './LikeButtonGeneric';
 export * from './ProgressDisplay';
 export * from './EmailPromptProv';
 export * from './IconButton';

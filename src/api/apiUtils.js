@@ -12,11 +12,19 @@ const API_ENDPOINT_UPDATE_USER = settings.getBackendHost().concat('/api/user');
 const apiUtils = {
     async addLike(hash) {
         const userhash = await utils.getUserParameter('hash');
-        this.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/like'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/like'), userhash);
     },
     async substractLike(hash) {
         const userhash = await utils.getUserParameter('hash');
-        this.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/unlike'), userhash);
+        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/unlike'), userhash);
+    },
+    async addLikeComment(hash) {
+        const userhash = await utils.getUserParameter('hash');
+        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/comment/like'), userhash);
+    },
+    async substractLikeComment(hash) {
+        const userhash = await utils.getUserParameter('hash');
+        apiUtils.transmitUserHash(API_ENDPOINT_LIKE.concat(hash, '/comment/unlike'), userhash);
     },
     //TODO: Rebuild with axios
     transmitUserHash(endpoint, userhash) {

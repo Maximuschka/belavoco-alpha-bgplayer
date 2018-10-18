@@ -10,9 +10,12 @@ import {
     Card,
     CardSection,
     InfoIcon,
-    LikeButton } from './common';
+    LikeButton,
+    LikeButtonGeneric } from './common';
 
 import playerUtils from '../player/playerUtils';
+import apiUtils from '../api/apiUtils';
+import utils from '../utils/utils';
 
 // Make a component
 class AudiobookDetail extends React.Component {
@@ -40,7 +43,7 @@ class AudiobookDetail extends React.Component {
         this.setState({
             like: !this.state.like
         }, () => {
-            AsyncStorage.setItem(id, JSON.stringify(this.state.like));
+            AsyncStorage.setItem('audiobook_'.concat(id), JSON.stringify(this.state.like));
             });
       }
 
@@ -52,10 +55,10 @@ class AudiobookDetail extends React.Component {
 
     async loadLikeState() {
         const id = String(this.props.audiobook.id);
-        likeState = await AsyncStorage.getItem(id);
+        let likeState = await AsyncStorage.getItem('audiobook_'.concat(id));
 
-        if (likeState === null){
-          likeState = false
+        if (likeState === null) {
+          likeState = false;
         }
 
         this.setState({
@@ -87,6 +90,8 @@ class AudiobookDetail extends React.Component {
         } = styles;
 
         const likeHandler = this.likeHandler;
+        const addLike = this.addLike;
+        const substractLike = this.substractLike;
 
         return (
             <TouchableOpacity onPress={this.startPlayPress}>
@@ -124,11 +129,14 @@ class AudiobookDetail extends React.Component {
                             </View>
                         </View>
                     </View>
-                    <LikeButton
-                        id={this.props.audiobook.id}
-                        hash={this.props.audiobook.hash}
+                    <LikeButtonGeneric
+                        hash={hash}
+                        size={45}
                         like={this.state.like}
+                        // colorLike='grey'
                         likeHandler={likeHandler.bind(this)}
+                        addLike={apiUtils.addLike.bind(this)}
+                        substractLike={apiUtils.substractLike.bind(this)}
                     />
                 </CardSection>
             </Card>
