@@ -10,3 +10,6 @@ export * from './LikeButton';
 export * from './ProgressDisplay';
 export * from './EmailPromptProv';
 export * from './IconButton';
+export * from './Comment';
+export * from './CommentInput';
+export * from './CommentSection';

@@ -114,6 +114,7 @@ export default class MediaScreen extends Component {
     if (audiobook === null) {
       this.setState({
         playerActivity: false,
+        playerFullScreen: false,
         selectedAudiobook: audiobook,
       });
     } else {

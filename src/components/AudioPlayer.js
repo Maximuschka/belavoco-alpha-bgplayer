@@ -1,7 +1,7 @@
 // Import a library to help create a component
 import React from 'react';
 
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 // import PlayButton from './common/PlayButton';
@@ -9,7 +9,10 @@ import * as Progress from 'react-native-progress';
 import {
     PlayButton,
     ProgressDisplay,
-    IconButton } from './common';
+    IconButton, 
+    CommentSection,
+    Comment
+    } from './common';
 
 import playerUtils from '../player/playerUtils';
 import audiobookUtils from '../audiobook/audiobookUtils';
@@ -91,61 +94,6 @@ export default class AudioPlayer extends React.Component {
         this.props.minimizePlayerHandler();
     }
 
-    // alignPlayerContent() {
-    //     console.log(this.state.fullscreen);
-    //     if (this.state.fullscreen) {
-    //         return {
-    //             infoContainerStyle: {
-    //                 justifyContent: 'center',
-    //                 flexDirection: 'row',
-    //                 borderColor: '#ddd',
-    //                 position: 'relative',
-    //                 backgroundColor: 'red',
-    //                 flex: 3,
-    //                 marginTop: 100
-    //             },
-    //             progressContainerStyle: {
-    //                 alignItems: 'center',
-    //                 backgroundColor: 'green',
-    //                 flexDirection: 'row',
-    //                 flex: 1,
-    //                 marginBottom: 100
-    //             },
-    //             buttonContainer: {
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //                 width: 50,
-    //                 backgroundColor: 'brown',
-    //                 flex: 1,
-    //                 marginTop: 100
-    //             },
-    //         };
-    //     }
-    //         return {
-    //             infoContainerStyle: {
-    //                 justifyContent: 'center',
-    //                 flexDirection: 'row',
-    //                 borderColor: '#ddd',
-    //                 position: 'relative',
-    //                 backgroundColor: 'blue',
-    //                 flex: 3,
-    //             },
-    //             progressContainerStyle: {
-    //                 alignItems: 'center',
-    //                 flexDirection: 'row',
-    //                 backgroundColor: 'yellow',
-    //                 flex: 1,
-    //             },
-    //             buttonContainer: {
-    //                 justifyContent: 'center',
-    //                 alignItems: 'center',
-    //                 width: 50,
-    //                 backgroundColor: 'purple',
-    //                 flex: 1,
-    //             },
-    //         };
-    //     }
-
     renderPlayerContent() {
         const playFinishHandlerAP = this.playFinishHandlerAP;
         const {
@@ -170,7 +118,7 @@ export default class AudioPlayer extends React.Component {
                             name='arrow-round-down'
                             size={20}
                             type='ionicon'
-                            color='red'
+                            color='grey'
                         />
                     </View>
                     <View style={stylesLargeAP.movedPlayerStyle}>
@@ -203,6 +151,9 @@ export default class AudioPlayer extends React.Component {
                             </View>
                         </View>
                     </View>
+                    <CommentSection>
+                        {this.renderComments()}
+                    </CommentSection>
                 </View>
             );
         } else if (this.state.fullscreen === false) {
@@ -226,7 +177,7 @@ export default class AudioPlayer extends React.Component {
                                         name='arrow-round-up'
                                         size={20}
                                         type='ionicon'
-                                        color='red'
+                                        color='grey'
                                     />
                                 </View>
                             </View>
@@ -266,6 +217,57 @@ export default class AudioPlayer extends React.Component {
                     );
                 }
             }
+    }
+
+    renderComments() {
+        const text = 'Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text';
+        const user1 = 'Max';
+        const user2 = 'Leo';
+        const date = '01.01.2019';
+        return (
+            <View>
+                <Comment 
+                    text={text}
+                    username={user1}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user2}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user1}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user2}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user1}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user2}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user1}
+                    date={date}
+                />
+                <Comment 
+                    text={text}
+                    username={user2}
+                    date={date}
+                />
+            </View>
+        );
     }
 
     render() {
