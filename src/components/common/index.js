@@ -9,3 +9,4 @@ export * from './InfoIcon';
 export * from './LikeButton';
 export * from './ProgressDisplay';
 export * from './EmailPromptProv';
+export * from './Prompt';

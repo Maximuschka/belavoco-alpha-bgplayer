@@ -1,7 +1,8 @@
 import React from 'react';
 import { AsyncStorage, View } from 'react-native';
 
-import Prompt from 'rn-prompt';
+// import Prompt from 'rn-prompt';
+import { Prompt } from '../common';
 
 import apiUtils from '../../api/apiUtils';
 import utils from '../../utils/utils';
