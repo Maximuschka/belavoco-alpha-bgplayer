@@ -37,6 +37,8 @@ class Comment extends React.Component {
             textStyle,
             infoStyle,
             infoContainerStyle,
+            buttonContainerStyle,
+            metaStyle,
         } = styles;
 
         const likeHandler = this.likeHandler;
@@ -44,19 +46,26 @@ class Comment extends React.Component {
         return (
             <View style={containerStyle}>
                 <Text style={textStyle}>{this.props.text}</Text>
-                    <View style={infoContainerStyle}>
-                        <LikeButtonGeneric
-                            hash={'test'}
-                            // hash={hash}
-                            size={20}
-                            like={this.state.like}
-                            likeHandler={likeHandler.bind(this)}
-                            addLike={apiUtils.addLikeComment.bind(this)}
-                            substractLike={apiUtils.substractLikeComment.bind(this)}
-                        />
-                        <Text style={infoStyle}>
-                            sagt {this.props.username} am {this.props.date}
-                        </Text>
+                    <View style={metaStyle}>
+                        <View style={infoContainerStyle}>
+                            <Text style={infoStyle}>
+                                <Text>sagt </Text>
+                                <Text style={{ fontWeight: 'bold' }}>{this.props.username}</Text>
+                                <Text> am </Text>
+                                <Text style={{ fontWeight: 'bold' }}>{this.props.date}</Text>
+                            </Text>
+                        </View>
+                        <View style={buttonContainerStyle}>
+                            <LikeButtonGeneric
+                                hash={'test'}
+                                // hash={hash}
+                                size={20}
+                                like={this.state.like}
+                                likeHandler={likeHandler.bind(this)}
+                                addLike={apiUtils.addLikeComment.bind(this)}
+                                substractLike={apiUtils.substractLikeComment.bind(this)}
+                            />
+                        </View>
                     </View>
             </View>
         );
@@ -65,12 +74,12 @@ class Comment extends React.Component {
 
 const styles = {
     containerStyle: {
-        borderRadius: 5,
+        borderRadius: 15,
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: Colors.tabIconDefault,
         margin: 5,
-        marginBottom: 10,
+        marginBottom: 5,
         // backgroundColor: '#fff',
         // justifyContent: 'flex-start',
         // flexDirection: 'row',
@@ -78,20 +87,25 @@ const styles = {
         // position: 'relative',
     },
     textStyle: {
-        fontSize: 15,
+        fontSize: 14,
         margin: 5,
-        // alignSelf: 'flex-end'
     },
-    infoContainerStyle: {
+    metaStyle: {
         flexDirection: 'row',
         marginBottom: 5,
-        // padding: 5,
     },
     infoStyle: {
         fontSize: 12,
-        // marginRight: 5,
-        // marginBottom: 5,
         alignSelf: 'flex-end'
+    },
+    infoContainerStyle: {
+        width: '85%',
+        marginLeft: 5,
+        marginRight: 5,
+    },
+    buttonContainerStyle: {
+        alignItems: 'flex-end',
+        marginRight: 5,
     },
 };
 
