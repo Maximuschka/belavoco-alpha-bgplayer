@@ -42,7 +42,10 @@ export default class App extends Component {
 
   onIds(device) {
     console.log('Device info: ', device);
-    AsyncStorage.setItem('onesignalplayid', device.userId);
+    if (device.userId !== null) {
+      //This if makes sure, that the App does not crash on very first return
+      AsyncStorage.setItem('onesignalplayid', device.userId);
+    }
   }
 
   render() {
