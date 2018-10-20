@@ -23,6 +23,7 @@ import {
 import settings from '../../settings';
 import Colors from '../constants/Colors';
 import apiUtils from '../api/apiUtils';
+import playerUtils from '../player/playerUtils';
 import utils from '../utils/utils';
 
 const API_ENDPOINT_ALL = settings.getBackendHost().concat('/api/get/all');
@@ -171,7 +172,8 @@ export default class MediaScreen extends Component {
             <AudioPlayer
               audiobook={this.state.selectedAudiobook}
               audiobooks={this.state.audiobooks}
-              progress={0}
+              // progress={0}
+              progress={playerUtils.getProgress()[0]}
               minimizePlayerHandler={minimizePlayerHandler.bind(this)}
               playFinishHandlerMS={playFinishHandlerMS}
               fullscreen={this.state.playerFullScreen}
