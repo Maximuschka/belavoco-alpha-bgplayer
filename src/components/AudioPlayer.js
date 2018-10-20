@@ -111,16 +111,7 @@ export default class AudioPlayer extends React.Component {
 
         if (this.state.fullscreen) {
             return (
-                <View style={stylesLargeAP.containerStyle}>
-                    <View style={stylesLargeAP.downButton}>
-                        <IconButton 
-                            onPress={this.minimizePlayer.bind(this)}
-                            name='arrow-round-down'
-                            size={20}
-                            type='ionicon'
-                            color='grey'
-                        />
-                    </View>
+                <View style={containerStyle}>
                     <View style={stylesLargeAP.movedPlayerStyle}>
                         <View style={infoContainerStyle}>
                             <View style={buttonContainer}>
@@ -133,6 +124,13 @@ export default class AudioPlayer extends React.Component {
                                 <Text style={authorStyle}>{this.state.audiobook.author}</Text>
                                 <Text style={titleStyle}>{this.state.audiobook.title}</Text>
                             </View>
+                            <IconButton 
+                                onPress={this.minimizePlayer.bind(this)}
+                                name='arrow-round-down'
+                                size={20}
+                                type='ionicon'
+                                color='grey'
+                            />
                         </View>
                         <View style={progressContainerStyle}>
                             <View style={progressBarStyle}>
@@ -151,72 +149,50 @@ export default class AudioPlayer extends React.Component {
                             </View>
                         </View>
                     </View>
-                    <CommentSection>
-                        {this.renderComments()}
-                    </CommentSection>
+                    {this.renderComments()}
                 </View>
             );
         } else if (this.state.fullscreen === false) {
-            if (this.state.audiobook !== null) {
-                    return (
-                        <View style={containerStyle}>
-                            <View style={infoContainerStyle}>
-                                <View style={buttonContainer}>
-                                    <PlayButton
-                                        playingState={'PLAYING'}
-                                        playFinishHandlerAP={playFinishHandlerAP}
-                                    />
-                                </View>
-                                <View style={infoContainer}>
-                                    <Text style={authorStyle}>{this.state.audiobook.author}</Text>
-                                    <Text style={titleStyle}>{this.state.audiobook.title}</Text>
-                                </View>
-                                <View style={upButton}>
-                                    <IconButton 
-                                        onPress={this.minimizePlayer.bind(this)}
-                                        name='arrow-round-up'
-                                        size={20}
-                                        type='ionicon'
-                                        color='grey'
-                                    />
-                                </View>
-                            </View>
-                            <View style={progressContainerStyle}>
-                                <View style={progressBarStyle}>
-                                    <Progress.Bar
-                                        progress={this.state.progress}
-                                        width={null}
-                                        color='grey'
-                                        animated={false}
-                                    />
-                                </View>
-                                <View style={progressDisplayStyle}>
-                                    <ProgressDisplay
-                                        position={this.state.position}
-                                        length={this.state.audiobook.length}
-                                    />
-                                </View>
-                            </View>
+            return (
+                <View style={containerStyle}>
+                    <View style={infoContainerStyle}>
+                        <View style={buttonContainer}>
+                            <PlayButton
+                                playingState={'PLAYING'}
+                                playFinishHandlerAP={playFinishHandlerAP}
+                            />
                         </View>
-                    );
-                } else if (this.state.audiobook === null) {
-                    return (
-                        <View style={containerStyle}>
-                            <View style={infoContainerStyle}>
-                                <View style={buttonContainer}>
-                                    <PlayButton
-                                        playingState={'PLAYING'}
-                                        playFinishHandlerAP={playFinishHandlerAP}
-                                    />
-                                </View>
-                                <View style={infoContainer}>
-                                    <Text style={titleStyle}>Nothing to Play</Text>
-                                </View>
-                            </View>
+                        <View style={infoContainer}>
+                            <Text style={authorStyle}>{this.state.audiobook.author}</Text>
+                            <Text style={titleStyle}>{this.state.audiobook.title}</Text>
                         </View>
-                    );
-                }
-            }
+                        <IconButton 
+                            onPress={this.minimizePlayer.bind(this)}
+                            name='arrow-round-up'
+                            size={20}
+                            type='ionicon'
+                            color='grey'
+                        />
+                    </View>
+                    <View style={progressContainerStyle}>
+                        <View style={progressBarStyle}>
+                            <Progress.Bar
+                                progress={this.state.progress}
+                                width={null}
+                                color='grey'
+                                animated={false}
+                            />
+                        </View>
+                        <View style={progressDisplayStyle}>
+                            <ProgressDisplay
+                                position={this.state.position}
+                                length={this.state.audiobook.length}
+                            />
+                        </View>
+                    </View>
+                </View>
+            );
+        }
     }
 
     renderComments() {
@@ -225,7 +201,7 @@ export default class AudioPlayer extends React.Component {
         const user2 = 'Leo';
         const date = '01.01.2019';
         return (
-            <View>
+            <CommentSection>
                 <Comment 
                     text={text}
                     username={user1}
@@ -266,7 +242,7 @@ export default class AudioPlayer extends React.Component {
                     username={user2}
                     date={date}
                 />
-            </View>
+            </CommentSection>
         );
     }
 
@@ -329,6 +305,7 @@ const styles = {
 };
 const stylesLargeAP = {
     containerStyle: {
+        flexDirection: 'row',
         flex: 1,
     },
     movedPlayerStyle: {
