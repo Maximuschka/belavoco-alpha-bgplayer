@@ -137,7 +137,6 @@ export default class AudioPlayer extends React.Component {
             infoContainer,
             authorStyle,
             titleStyle,
-            upButton,
         } = styles;
 
         if (this.state.fullscreen) {
@@ -228,49 +227,49 @@ export default class AudioPlayer extends React.Component {
 
     renderComments() {
         const text = 'Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text';
-        const user1 = 'Max';
-        const user2 = 'Leo';
+        const user1 = { username: 'Max', userhash: '123' };
+        const user2 = { username: 'Leo', userhash: '456' };
         const date = '01.01.2019';
         return (
             <CommentSection>
                 <Comment 
                     text={text}
-                    username={user1}
+                    user={user1}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user2}
+                    user={user2}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user1}
+                    user={user1}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user2}
+                    user={user2}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user1}
+                    user={user1}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user2}
+                    user={user2}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user1}
+                    user={user1}
                     date={date}
                 />
                 <Comment 
                     text={text}
-                    username={user2}
+                    user={user2}
                     date={date}
                 />
             </CommentSection>
@@ -314,9 +313,6 @@ const styles = {
         alignItems: 'center',
         width: 50,
         flex: 1,
-    },
-    upButton: {
-        alignItems: 'flex-end',
     },
     infoContainer: {
         justifyContent: 'space-around',

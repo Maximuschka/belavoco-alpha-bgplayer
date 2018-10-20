@@ -3,14 +3,11 @@ import React, { Component } from 'react';
 import {
     TouchableOpacity,
     StyleSheet,
-    DeviceEventEmitter,
     Platform
     } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import { Spinner } from '.';
-import playerUtils from '../../player/playerUtils';
-import Colors from '../../constants/Colors';
 
 // Make a component
 class PlayButton extends Component {
