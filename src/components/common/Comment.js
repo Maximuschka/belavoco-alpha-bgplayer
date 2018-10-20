@@ -19,6 +19,28 @@ class Comment extends React.Component {
         like: false,
     }
 
+    async componentDidMount() {
+        await this.loadLikeState();
+    }
+
+    onDelete() {
+        console.log('Delete!!!!');
+    }
+
+    async loadLikeState() {
+        const id = '3';
+        // const id = String(this.props.comment.id);
+        let likeState = await AsyncStorage.getItem('comment_'.concat(id));
+
+        if (likeState === null) {
+          likeState = false;
+        }
+
+        this.setState({
+            like: likeState
+        });
+    }
+
     async likeHandler() {
         //MUSS SPÄTER UMGESTELLT WERDEN, UM LIKE FÜR DEN RICHTIGEN KOMMENTAR ZU SETZEN
         // const id = String(this.props.comment.id);
@@ -29,10 +51,6 @@ class Comment extends React.Component {
         }, () => {
             AsyncStorage.setItem('comment_'.concat(id), JSON.stringify(this.state.like));
             });
-      }
-
-      onDelete() {
-          console.log('Delete!!!!');
       }
 
     renderDeleteButton() {
