@@ -14,40 +14,9 @@ import Colors from '../../constants/Colors';
 
 // Make a component
 class PlayButton extends Component {
-    state = {
-        isLoading: true,
-        playingState: this.props.playingState,
-    };
-
-    componentWillMount() {
-        this.setState({
-          isLoading: false,
-        });
-      }
-
-    componentDidMount() {
-        this.subscription = DeviceEventEmitter.addListener(
-            'RNAudioStreamerStatusChanged', this._statusChanged.bind(this));
-    }
 
     onPress = () => {
-        this.playOrPause();
-    }
-
-    playOrPause() {
-        if (String(this.state.playingState) === 'PLAYING') {
-            playerUtils.pauseAudioBook();
-        } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING') {
-            playerUtils.playAudioBook();
-        }
-    }
-
-    _statusChanged(status) {
-        this.setState({ playingState: status });
-
-        if (status === 'FINISHED') {
-            this.props.playFinishHandlerAP();
-        }
+        this.props.PlayButtonPress();
     }
 
     renderPlayMode(iconStyle, playingState) {
@@ -116,18 +85,27 @@ class PlayButton extends Component {
 
     render() {
         const { buttonStyle, iconStyle } = styles;
-        const { playingState } = this.state;
+        const { playingState } = this.props;
 
-        if (this.state.isLoading) {
-          return <Spinner size="small" />;
-        }
         return (
             <TouchableOpacity
               onPress={this.onPress}
               style={buttonStyle}
             >
-              {this.renderPlayMode(iconStyle, playingState)}
+                {this.renderPlayMode(iconStyle, playingState)}
             </TouchableOpacity>
+
+
+        // if (this.state.isLoading) {
+        //   return <Spinner size="small" />;
+        // }
+        // return (
+        //     <TouchableOpacity
+        //       onPress={this.onPress}
+        //       style={buttonStyle}
+        //     >
+        //       {this.renderPlayMode(iconStyle, playingState)}
+        //     </TouchableOpacity>
         );
     }
 }

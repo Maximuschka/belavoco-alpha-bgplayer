@@ -1,8 +1,13 @@
 // Import a library to help create a component
 import React from 'react';
 
-import { View, Text } from 'react-native';
+import { View,
+         Text, 
+         DeviceEventEmitter 
+        } from 'react-native';
+
 import * as Progress from 'react-native-progress';
+import RNAudioStreamer from 'react-native-audio-streamer';
 
 // import PlayButton from './common/PlayButton';
 
@@ -26,12 +31,13 @@ let interval;
 export default class AudioPlayer extends React.Component {
     constructor(props) {
         super(props);
-        this.playFinishHandlerAP = this.playFinishHandlerAP.bind(this);
+        this.PlayButtonPress = this.PlayButtonPress.bind(this);
       }
 
       state = {
         audiobook: this.props.audiobook,
         playlist: this.props.audiobooks,
+        playingState: 'PLAYING',
         progress: this.props.progress,
         fullscreen: this.props.fullscreen,
         position: 0,
@@ -47,6 +53,8 @@ export default class AudioPlayer extends React.Component {
                 });
             }
         }, 500);
+        this.subscription = DeviceEventEmitter.addListener(
+                    'RNAudioStreamerStatusChanged', this._statusChanged.bind(this));
       }
 
     componentWillReceiveProps(nextProps) {
@@ -70,7 +78,26 @@ export default class AudioPlayer extends React.Component {
         clearInterval(interval);
     }
 
-    async playFinishHandlerAP() {
+    _statusChanged(status) {
+        this.setState({ playingState: status });
+
+        if (status === 'FINISHED') {
+            this.afterFinish();
+        }
+    }
+
+    playOrPause() {
+            if (String(this.state.playingState) === 'PLAYING') {
+                playerUtils.pauseAudioBook();
+            } else if (String(this.state.playingState) === 'PAUSED' || 'STOPPED' || 'BUFFERING' || 'ERROR') {
+                playerUtils.playAudioBook();
+            }
+            RNAudioStreamer.status((status) => {
+                console.log('in playOrPause() AP: ' + status);
+            });
+        }
+
+    async afterFinish() {
         //TODO: make following code in a function randomPlay().
         //TODO: AND, make a fucntion sequentialPlay() --> playing audiobook after audiobook
         const autoplayState = await playerUtils.loadAutoplayStatus();
@@ -90,12 +117,16 @@ export default class AudioPlayer extends React.Component {
         }
     }
 
+    PlayButtonPress() {
+        this.playOrPause();
+    }
+
     minimizePlayer() {
         this.props.minimizePlayerHandler();
     }
 
     renderPlayerContent() {
-        const playFinishHandlerAP = this.playFinishHandlerAP;
+        const PlayButtonPress = this.PlayButtonPress;
         const {
             containerStyle,
             infoContainerStyle,
@@ -116,8 +147,8 @@ export default class AudioPlayer extends React.Component {
                         <View style={infoContainerStyle}>
                             <View style={buttonContainer}>
                                 <PlayButton
-                                    playingState={'PLAYING'}
-                                    playFinishHandlerAP={playFinishHandlerAP}
+                                    playingState={this.state.playingState}
+                                    PlayButtonPress={PlayButtonPress}
                                 />
                             </View>
                             <View style={infoContainer}>
@@ -158,8 +189,8 @@ export default class AudioPlayer extends React.Component {
                     <View style={infoContainerStyle}>
                         <View style={buttonContainer}>
                             <PlayButton
-                                playingState={'PLAYING'}
-                                playFinishHandlerAP={playFinishHandlerAP}
+                                playingState={this.state.playingState}
+                                PlayButtonPress={PlayButtonPress}
                             />
                         </View>
                         <View style={infoContainer}>
