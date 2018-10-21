@@ -13,6 +13,9 @@ import {
     LikeButton } from './common';
 
 import playerUtils from '../player/playerUtils';
+import settings from '../../settings';
+
+const BACKEND_HOST = settings.getBackendHost().concat('/api/get/');
 
 // Make a component
 class AudiobookDetail extends React.Component {
@@ -45,8 +48,8 @@ class AudiobookDetail extends React.Component {
       }
 
     startPlayPress = () => {
-        //playerUtils.startAudioBook('http://www.schillmania.com/projects/soundmanager2/demo/_mp3/rain.mp3');
-        playerUtils.startAudioBook(this.props.audiobook.file_url);
+        const fileUrl = BACKEND_HOST.concat(this.props.audiobook.hash, '/play');
+        playerUtils.startAudioBook(fileUrl);
         this.props.selectionHandlerList(this.props.audiobook);
       }
 
