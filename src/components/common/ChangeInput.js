@@ -6,9 +6,9 @@ import {
     StyleSheet, 
     } from 'react-native';
 
-import { Prompt } from './common';
+import { Prompt } from '.';
 
-class NameInput extends Component {
+class ChangeInput extends Component {
   state = {
     visiblePrompt: false,
     promptValue: '',
@@ -26,10 +26,11 @@ class NameInput extends Component {
     return (
       <View>
         <Prompt
-          title={'Name ändern'}
+          title={this.props.promptTitle}
           placeholder={''}
           visible={this.state.visiblePrompt}
-          submitText={'Ändern'}
+          cancelPossible={true}
+          submitText={this.props.buttonText}
           onChangeText={(text) => {
               this.setState({ 
                   promptValue: text 
@@ -89,4 +90,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default NameInput;
+export { ChangeInput };

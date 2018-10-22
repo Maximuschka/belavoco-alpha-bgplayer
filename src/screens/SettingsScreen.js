@@ -4,11 +4,12 @@ import { View,
   StyleSheet, 
   AsyncStorage,
   Switch } from 'react-native';
-import NameInput from '../components/NameInput';
+
 import { 
   Card, 
   CardSection,
-  Button
+  Button,
+  ChangeInput,
   } from '../components/common';
 
 import playerUtils from '../player/playerUtils';
@@ -96,8 +97,9 @@ export default class SettingsScreen extends Component {
               <Text style={titleStyle}>{'Name: ' + this.state.userData.username}</Text>
             </View>
             <View style={buttonContainer}>
-              <NameInput 
-                buttonText={'Change'}
+              <ChangeInput 
+                buttonText={'Ändern'}
+                promptTitle={'Dein Name'}
                 handleToUpdate={updateUsername.bind(this)}
               />
             </View>
@@ -109,9 +111,10 @@ export default class SettingsScreen extends Component {
               <Text style={titleStyle}>{'E-mail: ' + this.state.userData.useremail}</Text>
             </View>
             {/* <View style={buttonContainer}>
-              <NameInput 
-                buttonText={'Change'}
-                handleToUpdate={updateUserEmail.bind(this)}
+              <ChangeInput 
+                  buttonText={'Ändern'}
+                  promptTitle={'Deine E-Mail Adresse'}
+                  handleToUpdate={updateUserEmail.bind(this)}
               />
             </View> */}
           </CardSection>

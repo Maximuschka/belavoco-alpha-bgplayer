@@ -10,3 +10,4 @@ export * from './LikeButton';
 export * from './ProgressDisplay';
 export * from './EmailPromptProv';
 export * from './Prompt';
+export * from './ChangeInput';

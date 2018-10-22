@@ -37,6 +37,7 @@ class Prompt extends React.Component {
 
   static defaultProps = {
     visible: false,
+    cancelPossible: false,
     defaultValue: '',
     cancelText: 'Cancel',
     submitText: 'OK',
@@ -90,7 +91,7 @@ class Prompt extends React.Component {
       title,
       placeholder,
       defaultValue,
-      // cancelText,
+      cancelText,
       submitText,
       borderColor,
       promptStyle,
@@ -99,8 +100,8 @@ class Prompt extends React.Component {
       buttonTextStyle,
       submitButtonStyle,
       submitButtonTextStyle,
-      // cancelButtonStyle,
-      // cancelButtonTextStyle,
+      cancelButtonStyle,
+      cancelButtonTextStyle,
       inputStyle
     } = this.props;
     return (
@@ -125,13 +126,11 @@ class Prompt extends React.Component {
             />
           </View>
           <View style={[styles.dialogFooter, { borderColor }]}>
-            {/* <TouchableWithoutFeedback onPress={this._onCancelPress}>
-              <View style={[styles.dialogAction, buttonStyle, cancelButtonStyle]}>
-                <Text style={[styles.dialogActionText, buttonTextStyle, cancelButtonTextStyle]}>
-                  {cancelText}
-                </Text>
-              </View>
-            </TouchableWithoutFeedback> */}
+            {this.renderCancelButton(
+              cancelText, 
+              [styles.dialogAction, buttonStyle, cancelButtonStyle], 
+              [styles.dialogActionText, buttonTextStyle, cancelButtonTextStyle]
+            )}
             <TouchableWithoutFeedback onPress={this._onSubmitPress}>
               <View style={[styles.dialogAction, buttonStyle, submitButtonStyle]}>
                 <Text style={[styles.dialogActionText, buttonTextStyle, submitButtonTextStyle]}>
@@ -144,6 +143,20 @@ class Prompt extends React.Component {
       </View>
     );
   };
+
+  renderCancelButton(cancelText, buttonStyle, buttonTextStyle) {
+    if (this.props.cancelPossible) {
+      return (
+        <TouchableWithoutFeedback onPress={this._onCancelPress}>
+          <View style={buttonStyle}>
+            <Text style={buttonTextStyle}>
+              {cancelText}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
+    }
+  }
 
   render() {
     return (
